@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invito-connecting peoples</title>
-    
+    <link rel="icon" href="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png"  type="image/x-icon">
     <link href='https://fonts.googleapis.com/css?family=Lato:100,200,300,400,500,600,700' rel='stylesheet' type='text/css'>
     <style>
         @import "compass/css3";
@@ -208,23 +208,23 @@ button {
     <nav class="navbar">
         <div class="container">
             <div class="logo">
-                <a href="/">
-                    <!-- upload the logo image to cloudinary -->
-                    <!-- <img src="../../assets/paper-plane.png" alt="img1" height="40px"> -->
-                    <i class="fa-solid fa-paper-plane"></i>
-                </a>
-                <a href="/posts/new" class="newpost">
-                    <!-- <img src="assets/post.png" alt="New Post" height="40px"> -->
-                    <i class="fa-solid fa-circle-plus"></i>
-                </a>
-                <!-- notification -->
-                <a href="/users/notification" class="notification">
-                    <!-- <img src="assets/notification-bell.png" alt="Notifications" height="40px"> -->
-                    <i class="fa-solid fa-bell"></i>
-                </a>
+              <a href="/">
+                <!-- upload the logo image to cloudinary -->
+                <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png" alt="img1" height="40px">
+                <!-- <i class="fa-solid fa-paper-plane"></i> -->
+            </a>
+            <a href="/posts/new" class="newpost">
+                <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/post_fswon1.png" alt="New Post" height="40px">
+                <!-- <i class="fa-solid fa-circle-plus"></i> -->
+            </a>
+            <!-- notification -->
+            <a href="/users/notification" class="notification">
+                <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/notification-bell_rfwfjs.png" alt="Notifications" height="40px">
+                <!-- <i class="fa-solid fa-bell"></i> -->
+            </a>
             </div>
             <!-- current user profile -->
-            <a href="/users/profile">
+            <a href="/users/<%= currUser._id %>/profile">
                 <i class=" fa fa-solid fa-user fa-xl"></i>
             </a>
           </div>
@@ -232,8 +232,8 @@ button {
     <div class="container-post">
         <form action="/posts" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
             <div class="form-group">
-              <label for="content" class="form-label">Content </label>
-              <input type="text" name="content" id="content" class="form-controll" style="color: #000000; text-shadow: #000000;font-weight: 600;" required/>
+              <label for="content" class="form-label">Enter information for the post</label>
+              <input type="text" placeholder="Enter here" name="content" id="content" class="form-controll" style="color: #000000; text-shadow: #000000;font-weight: 600;" required/>
             </div>
 
             <div class="form-group file-area">
@@ -246,7 +246,7 @@ button {
             </div>
 
             <div class="form-group">
-              <button type="submit">Upload image</button>
+              <button type="submit">Create the new post</button>
             </div>
       </form>
       

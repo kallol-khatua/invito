@@ -93,7 +93,13 @@ router.post('/interested', isLoggedIn, async(req, res) => {
 
 router.get("/:id", isLoggedIn, isOwner, async(req, res, next) => {
     let {id} = req.params;
-    let post = await Post.findById(id).populate("creater");
+    let post = await Post.findById(id).populate("creater").populate({
+        path: 'interested_user',
+        populate: {
+          path: 'profile_image'
+        }
+      });
+    console.log(post);
     res.render("posts/singlePost", {post});
 });
 

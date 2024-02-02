@@ -11,7 +11,7 @@
   <script src="https://kit.fontawesome.com/8f7f537382.js" crossorigin="anonymous"></script>
   <link rel="canonical" href="https://v5.getbootstrap.com/docs/5.0/examples/album/">
   <link rel="stylesheet" href="/css/navbar.css">
-
+  <link rel="icon" href="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png"  type="image/x-icon">
 
 
   <!-- Bootstrap core CSS -->
@@ -44,26 +44,45 @@
 
 
   <style>
-.card {
-  margin-left: 10px !important;
-  margin-bottom: 10px !important;
-  width: 98% !important;
+
+    .card-img-top {
+      object-fit: cover !important;
+    }
+    
+.navbar {
+    position: fixed;
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(253, 253, 253);
+    width: 100%;
+    border: 1px solid rgb(148, 131, 131);
+    height: 10vh;
 }
 
-.card-img-top {
-    border-radius: 1rem !important;
-    width: 100% !important;
-    object-fit: cover !important;
+.navbar .container {
+    /* background-color: #555; */
+    padding: 15px 0;
+    width: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* margin: 0 auto; */
+}.container .logo {
+    display: flex;
+    cursor: pointer;
+    justify-content: space-between;
+    width: 70%;
 }
+/* @media screen and (max-width: 600px) {
+    .container {
+        width: 100% !important;
+    } */
 
-.card-body {
-    padding: 0 !important;
-    padding-bottom: 10px !important;
-}
-
-
-
-
+    .navbar .container {
+        padding: 15px 10px !important;
+    }
 
 
     .bd-placeholder-img {
@@ -87,12 +106,41 @@
       margin: 10px;
 
     }
+    /* .card{
+      width: 25%;
+    } */
 
     @media (min-width: 768px) {
       .bd-placeholder-img-lg {
         font-size: 3.5rem;
       }
     }
+    @media only screen and (max-width: 1000px){
+      .row{
+        margin-top: 50px;
+      }
+    }
+    @media only screen and (max-width: 450px){
+      .card{
+        width: 100%;
+      }
+    }
+    @media (min-width: 450px){
+      .card{
+        width: 50%;
+      }
+    }
+    @media (min-width: 900px){
+      .card{
+        width: 33%;
+      }
+    }
+    @media (min-width: 1150px){
+      .card{
+        width: 25%;
+      }
+    }
+    
   </style>
 
 
@@ -105,23 +153,24 @@
 
 
         <div class="logo">
-            <a href="/">
-                <!-- upload the logo image to cloudinary -->
-                <!-- <img src="../../assets/paper-plane.png" alt="img1" height="40px"> -->
-                <i class="fa-solid fa-paper-plane"></i>
-            </a>
-            <a href="/posts/new" class="newpost">
-                <!-- <img src="assets/post.png" alt="New Post" height="40px"> -->
-                <i class="fa-solid fa-circle-plus"></i>
-            </a>
-            <a href="/users/notification" class="notification">
-                <!-- <img src="assets/notification-bell.png" alt="Notifications" height="40px"> -->
-                <i class="fa-solid fa-bell"></i>
-            </a>
+          <a href="/">
+            <!-- upload the logo image to cloudinary -->
+            <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png" alt="img1" height="40px">
+            <!-- <i class="fa-solid fa-paper-plane"></i> -->
+        </a>
+        <a href="/posts/new" class="newpost">
+            <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/post_fswon1.png" alt="New Post" height="40px">
+            <!-- <i class="fa-solid fa-circle-plus"></i> -->
+        </a>
+        <!-- notification -->
+        <a href="/users/notification" class="notification">
+            <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/notification-bell_rfwfjs.png" alt="Notifications" height="40px">
+            <!-- <i class="fa-solid fa-bell"></i> -->
+        </a>
         </div>
 
         <!-- current user profile -->
-        <a href="/users/profile">
+        <a href="/users/<%= currUser._id %>/profile">
             <i class=" fa fa-solid fa-user fa-xl"></i>
         </a>
       </div>
@@ -138,15 +187,20 @@
           </div>
         </div>
         <div class="col-md-6">
+          <% if(String(currUser._id) == String(user._id)){ %>
           <h1 class="font-weight-light">Hello <%= user.username %></h1>
-          
+          <% } else { %>
+            <h1 class="font-weight-light"><%= user.username %></h1>
+          <% } %>
             <p class="lead text-muted"> <%= user.bio %></p>
+            <p class="lead text-muted"> <%= user.email %></p>
           
-          
+          <% if(String(currUser._id) == String(user._id)){ %>
           <p>
             <a href="/users/edit" class="btn btn-primary my-2">Edit Profile</a>
             
           </p>
+          <% } %>
         </div>
       </div>
     </section>
@@ -156,16 +210,13 @@
       <div class="container">
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-          
-          <% for (post of posts) { %>
-
-            <div class="card" style="width: 18rem;">
-              <img height="350px" src="<%= post.image.url %>" class="card-img-top" alt="post-image">
+            <% for(post of posts) { %>
+            <div class="card">
+              <img height="350px" src="<%= post.image.url %>" class="mt-2 card-img-top" alt="post-image">
               <div class="card-body">
-                <p class="card-text"><b><%= post.content %></b></p>
+                <p class="card-text"><%= post.content %></p>
               </div>
             </div>
-         
           <% } %>
 
         </div>

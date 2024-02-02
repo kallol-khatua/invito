@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png"  type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invito-connecting peoples</title>
 </head>
@@ -331,7 +332,6 @@
         <% if(notifications && notifications.length) { %>
             <% for(notification of notifications) { %>
                 <details>
-                    <!-- you got a response from <%= notification.from[0].username %> -->
                     <summary>you got a response from <strong><%= notification.from[0].username %></strong></summary>
                     <div class="content">
                         <h4>Post</h4>

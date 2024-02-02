@@ -24,7 +24,7 @@ const { isLoggedIn, isVerified } = require('./utils/middlewares');
 const Notification = require('./models/notification');
 
 async function main() {
-    await mongoose.connect(process.env.MONGO_URL);
+    await mongoose.connect(process.env.ATLAS_URL);
 }
 
 main()
@@ -77,9 +77,9 @@ app.use((req, res, next) => {
 });
 
 app.get("/", isLoggedIn, isVerified, async (req, res, next) => {
-    let posts = await Post.find().populate("creater").populate("interested_user");
+    let posts = (await Post.find().populate("creater").populate("interested_user")).reverse();
 
-    res.render("./posts/home2.ejs", {posts});
+    res.render("./posts/index.ejs", {posts});
 });
 
 // // two handle interest request and also prevent the page to get refreshed

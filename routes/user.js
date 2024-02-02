@@ -29,9 +29,10 @@ router.get("/edit", isLoggedIn, (req, res, next) => {
     res.render("users/editprofile.ejs", {user: req.user});
 });
 
+// edit user info page
 router.post("/edit", isLoggedIn, async(req, res, next) => {
+    try {
     let {username, bio} = req.body;
-    // check username is taken or not -- 
     await User.findOneAndUpdate({_id: req.user._id}, {username: username, bio: bio});
     let user = await User.findById(req.user._id);
 
@@ -40,19 +41,23 @@ router.post("/edit", isLoggedIn, async(req, res, next) => {
             return next(err);
         }
         res.redirect("/");
-        // res.render("users/userPage.ejs", {user});
     })
+} catch(err) {
+ return next(err);
+}
 });
 
 // user profile page
-router.get("/profile", isLoggedIn, async(req, res, next) => {
-    let posts = await Post.find({creater: req.user._id});
-    res.render("users/userPage.ejs", {user: req.user, posts: posts});
+router.get("/:id/profile", isLoggedIn, async(req, res, next) => {
+    let {id} = req.params;
+    let posts = await Post.find({creater: id});
+    let user = await User.findOne({_id: id});
+    res.render("users/userPage.ejs", {user, posts});
 });
 
 // notification page
 router.get("/notification", isLoggedIn, async(req, res, next) => {
-    let notifications = await Notification.find({to: req.user._id}).populate("from").populate("to").populate("post");
+    let notifications = (await Notification.find({to: req.user._id}).populate("from").populate("to").populate("post")).reverse();
     res.render("users/notification.ejs", {notifications});
 });
 
