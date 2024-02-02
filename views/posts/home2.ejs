@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Invito-connecting peoples</title>
+    <script src="https://kit.fontawesome.com/8f7f537382.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+
+    <!-- Our Header section Starts from here -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <a href="/">
+                        <!-- upload the logo image to cloudinary -->
+                        <!-- <img src="../../assets/paper-plane.png" alt="img1" height="40px"> -->
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </a>
+                    <a href="/posts/new" class="newpost">
+                        <!-- <img src="assets/post.png" alt="New Post" height="40px"> -->
+                        <i class="fa-solid fa-circle-plus"></i>
+                    </a>
+                    <!-- notification -->
+                    <a href="/users/notification" class="notification">
+                        <!-- <img src="assets/notification-bell.png" alt="Notifications" height="40px"> -->
+                        <i class="fa-solid fa-bell"></i>
+                    </a>
+                </div>
+                <!-- current user profile -->
+                <a href="/users/profile">
+                    <i class=" fa fa-solid fa-user fa-xl"></i>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Code for Showing the Status -->
+    <main>
+        <div class="container">
+            <div class="col-9">
+                <div class="welcome">
+                    <div class="image">
+                        <!-- current user name -->
+                        <h1>Welcome! <%= currUser.username %></h1>
+                    </div>
+                </div>
+
+                <!-- Code for viewing the Post -->
+                <% for(post of posts) { %>
+                    <div class="card">
+                        <div class="top">
+                            <!-- User Details -->
+                            <div class="userDetails">
+                                <div class="profilepic">
+                                    <div class="profile_img">
+                                        <div class="image">
+                                            <!-- user profile pic -->
+                                            <img src="<%= post.creater.profile_image.url %>" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <h3><%= post.creater.username %></h3>
+                            </div>
+                        </div>
+                        <div class="imgBx">
+                            <img src="<%= post.image.url %>"
+                                alt="post-1" class="cover">
+                        </div>
+                        <div class="bottom">
+                            <a href="#">
+                                <p class="message">
+                                    <b><%= post.content %></b>
+                                </p>
+                            </a>
+                            <div class="actionBtns">
+                                <div class="left">    
+                                    <button class="button-50" id="<%= post._id %>" role="button"  onclick="buttonClicked('<%= post._id %>')">Interest...?</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function buttonClicked(postId) {
+            let myButton = document.getElementById(postId);
+
+            // Change the button text to 'Done'
+            myButton.innerHTML = 'Done';
+
+            // Make the button unclickable
+            myButton.disabled = true;
+
+            // Optionally, you can remove the onclick attribute to prevent further clicks
+            myButton.removeAttribute('onclick');
+
+
+            // send request to the server to show interest
+            // Make an AJAX request to the server
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/posts/interested', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            // Set up the data to send to the server
+            const data = `postId=${postId}`;
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        // if (response.success) {
+                        //     alert(response.message);
+                        // } else {
+                        //     alert(response.message);
+                        // }
+                    } else {
+                        alert('Error occurred while making the request');
+                    }
+                }
+            };
+
+            // Send the request with the data
+            xhr.send(data);
+        }
+    </script>
+</body>
+
+</html>
