@@ -77,8 +77,19 @@
                                 </p>
                             </a>
                             <div class="actionBtns">
-                                <div class="left">    
-                                    <button class="button-50" id="<%= post._id %>" role="button"  onclick="buttonClicked('<%= post._id %>')">Interest...?</button>
+                                <div class="left"> 
+                                    <% if(String(post.creater._id) == String(currUser._id)) { %>  
+                                        
+                                            <a href="/posts/<%= post._id %>"><button  class="button-50" id="<%= post._id %>" role="button"  >See post detail</button></a>
+                                        
+                                    <% } else { //  %>
+                                        <% // if user already interested then button should be disabled and button text is Done%>
+                                        <% if(post.interested_user.includes(String(currUser._id))) { %>   
+                                            <button class="button-50" id="<%= post._id %>" role="button"  disabled>Done</button>
+                                        <% } else { //  %>
+                                            <button class="button-50" id="<%= post._id %>" role="button"  onclick="buttonClicked('<%= post._id %>')">Interest...?</button>
+                                        <% } %>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>

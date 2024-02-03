@@ -90,7 +90,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/", isLoggedIn, isVerified, async (req, res, next) => {
-    let posts = (await Post.find().populate("creater").populate("interested_user")).reverse();
+    let posts = (await Post.find().populate("creater")).reverse();
 
     res.render("./posts/index.ejs", {posts});
 });
