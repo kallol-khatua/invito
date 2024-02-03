@@ -99,7 +99,7 @@ router.get("/:id", isLoggedIn, isOwner, async(req, res, next) => {
           path: 'profile_image'
         }
       });
-    console.log(post);
+    // console.log(post);
     res.render("posts/singlePost", {post});
 });
 

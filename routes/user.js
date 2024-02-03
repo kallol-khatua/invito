@@ -32,19 +32,19 @@ router.get("/edit", isLoggedIn, (req, res, next) => {
 // edit user info page
 router.post("/edit", isLoggedIn, async(req, res, next) => {
     try {
-    let {username, bio} = req.body;
-    await User.findOneAndUpdate({_id: req.user._id}, {username: username, bio: bio});
-    let user = await User.findById(req.user._id);
+        let {username, bio} = req.body;
+        await User.findOneAndUpdate({_id: req.user._id}, {username: username, bio: bio});
+        let user = await User.findById(req.user._id);
 
-    req.login(user, (err) => {
-        if(err) {
-            return next(err);
-        }
-        res.redirect("/");
-    })
-} catch(err) {
- return next(err);
-}
+        req.login(user, (err) => {
+            if(err) {
+                return next(err);
+            }
+            res.redirect(`./${user._id}/profile`);
+        })
+    } catch(err) {
+        return next(err);
+    }
 });
 
 // user profile page

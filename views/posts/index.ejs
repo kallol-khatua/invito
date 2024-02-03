@@ -50,6 +50,7 @@
                 <!-- Code for viewing the Post -->
                 <% for(post of posts) { %>
                     <div class="card">
+                        <a href="/users/<%= post.creater._id %>/profile">
                         <div class="top">
                             <!-- User Details -->
                             <div class="userDetails">
@@ -64,6 +65,7 @@
                                 <h3><%= post.creater.username %></h3>
                             </div>
                         </div>
+                        </a>
                         <div class="imgBx">
                             <img src="<%= post.image.url %>"
                                 alt="post-1" class="cover">
