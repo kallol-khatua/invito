@@ -24,7 +24,7 @@ const { isLoggedIn, isVerified } = require('./utils/middlewares');
 const Notification = require('./models/notification');
 
 async function main() {
-    await mongoose.connect(process.env.MONGO_URL);
+    await mongoose.connect(process.env.ATLAS_URL);
 }
 
 main()
