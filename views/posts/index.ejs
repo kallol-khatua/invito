@@ -6,6 +6,7 @@
     <title>Invito-connecting peoples</title>
     <script src="https://kit.fontawesome.com/8f7f537382.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/navbar.css">
     <link rel="icon" href="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png"  type="image/x-icon">
 </head>
 
@@ -16,26 +17,22 @@
         <nav class="navbar">
             <div class="container">
                 <div class="logo">
-                    <a href="/">
-                        <!-- upload the logo image to cloudinary -->
-                        <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png" alt="img1" height="40px">
-                        <!-- <i class="fa-solid fa-paper-plane"></i> -->
-                    </a>
-                    <a href="/posts/new" class="newpost">
-                        <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/post_fswon1.png" alt="New Post" height="40px">
-                        <!-- <i class="fa-solid fa-circle-plus"></i> -->
-                    </a>
-                    <!-- notification -->
-                    <a href="/users/notification" class="notification">
-                        <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/notification-bell_rfwfjs.png" alt="Notifications" height="40px">
-                        <!-- <i class="fa-solid fa-bell"></i> -->
-                    </a>
+                  <a href="/">
+                    <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png" alt="img1" height="40px">
+                </a>
+                <a href="/posts/new" class="newpost">
+                    <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/post_fswon1.png" alt="New Post" height="40px">
+                </a>
+                <!-- notification -->
+                <a href="/users/notification" class="notification">
+                    <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/notification-bell_rfwfjs.png" alt="Notifications" height="40px">
+                </a>
                 </div>
                 <!-- current user profile -->
                 <a href="/users/<%= currUser._id %>/profile">
                     <i class=" fa fa-solid fa-user fa-xl"></i>
                 </a>
-            </div>
+              </div>
         </nav>
     </header>
 
