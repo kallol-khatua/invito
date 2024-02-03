@@ -283,7 +283,7 @@
         $(".error-message").text("Content and image cannot be empty");
         return false;
     } else if (caption.trim() === "") {
-        $(".error-message").text("Caption cannot be empty");
+        $(".error-message").text("Content cannot be empty");
         return false;
     } else if (images.length === 0) {
         $(".error-message").text("Image cannot be empty");
@@ -298,11 +298,11 @@
 
         // Trigger the file input's click event when the button is clicked
         $("#imageButton").click(function () {
-            $("#images").click();
+            $("#image").click();
             $("#file-dummy").addClass("file-dummy")
         });
 
-        $("#images").change(function () {
+        $("#image").change(function () {
             readURL(this);
         });
     </script>
