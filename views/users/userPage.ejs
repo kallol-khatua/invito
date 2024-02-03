@@ -155,17 +155,14 @@
         <div class="logo">
           <a href="/">
             <!-- upload the logo image to cloudinary -->
-            <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png" alt="img1" height="40px">
-            <!-- <i class="fa-solid fa-paper-plane"></i> -->
+            <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706956064/invito/invito_logo_xep70u.jpg" alt="img1" height="40px">
         </a>
         <a href="/posts/new" class="newpost">
             <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/post_fswon1.png" alt="New Post" height="40px">
-            <!-- <i class="fa-solid fa-circle-plus"></i> -->
         </a>
         <!-- notification -->
         <a href="/users/notification" class="notification">
             <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/notification-bell_rfwfjs.png" alt="Notifications" height="40px">
-            <!-- <i class="fa-solid fa-bell"></i> -->
         </a>
         </div>
 
@@ -187,6 +184,7 @@
           </div>
         </div>
         <div class="col-md-6">
+          <% // if profile of current user only then greeting option will be available %>
           <% if(String(currUser._id) == String(user._id)){ %>
           <h1 class="font-weight-light">Hello <%= user.username %></h1>
           <% } else { %>
@@ -194,11 +192,15 @@
           <% } %>
             <p class="lead text-muted"> <%= user.bio %></p>
             <p class="lead text-muted"> <%= user.email %></p>
-          
+
+
+          <% // if profile of current user only then edit button will be available %>
           <% if(String(currUser._id) == String(user._id)){ %>
           <p>
             <a href="/users/edit" class="btn btn-primary my-2">Edit Profile</a>
-            
+          </p>
+          <p>
+            <a href="/users/logout" class="btn btn-primary my-2">Logout</a>
           </p>
           <% } %>
         </div>

@@ -454,7 +454,8 @@
                                 <div id="collapseOne" class="accordion-collapse collapse show" data-bs-toggle=""="#accordianExample">
                                     <div class="accordion-body">
                                     </div>
-                                    <% for(user of post.interested_user) {%>
+                                    <% let users = post.interested_user.reverse() %>
+                                    <% for(user of users) {%>
                                     <a href="/users/<%= user._id %>/profile">
                                         <div class="interstedPersons">
                                             
