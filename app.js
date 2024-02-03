@@ -10,7 +10,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const bodyParser = require('body-parser');
 const session = require("express-session");
-// const MongoStore = require('connect-mongo'); //to store session on mongodb atlas
+const MongoStore = require('connect-mongo'); //to store session on mongodb atlas
 const flash = require("connect-flash"); // for flash messaeg
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -49,8 +49,21 @@ app.use(bodyParser.json());
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
-    
+   
+const store = MongoStore.create({
+    mongoUrl: process.env.ATLAS_URL,
+    crypto: {
+        secret: process.env.SECRET
+    },
+    touchAfter: 7 * 24 * 60 * 60 * 1000
+});
+
+store.on("error", () => {
+    console.log("error in mongo session store", err)
+})
+
 const sessionOPtions = {
+    store,
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
