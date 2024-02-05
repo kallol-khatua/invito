@@ -1,6 +1,6 @@
 const User = require("../models/user");
 const mailSender = require("../utils/mail.js");
-const otpGenerator = require('otp-generator')
+const otpGenerator = require('otp-generator');
 
 module.exports.renderSignupForm = (req, res, next) => {
     res.render("users/signup.ejs");
@@ -40,7 +40,17 @@ module.exports.signup = async (req, res, next) => {
 };
 
 module.exports.renderLoginForm = (req, res, next) => {
-    res.render("users/login.ejs");
+    if(req.user) {
+        req.logout((err) => {
+            if(err) {
+                return next(err);
+            }
+            req.flash("success", "You logged out successfully");
+            return res.render("users/login.ejs");
+        });
+    } else {
+        return res.render("users/login.ejs");
+    }  
 };
 
 // if user email not verified then verify

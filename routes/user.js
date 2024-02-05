@@ -5,7 +5,9 @@ const userController = require("../controllers/user");
 const Post = require("../models/post");
 const Notification = require("../models/notification");
 const User = require("../models/user");
+const otpGenerator = require('otp-generator');
 const { isLoggedIn } = require("../utils/middlewares");
+const mailSender = require("../utils/forgetPasswordMail.js");
 const multer  = require('multer');
 const {storage} = require("../cloudconfig.js");
 const upload = multer({ storage });
@@ -44,6 +46,128 @@ router.post("/edit", isLoggedIn, async(req, res, next) => {
         })
     } catch(err) {
         return next(err);
+    }
+});
+
+router.get("/forget-password", async(req, res, next) => {
+    if(req.user) {
+        req.logout((err) => {
+            if(err) {
+                return next(err);
+            }
+            req.flash("success", "You logged out successfully");
+            return res.render("users/forgetPassword");
+        });
+    } else {
+        return res.render("users/forgetPassword");
+    }
+});
+
+router.post("/forget-password", async(req, res, next) => {
+    let {email, otp} = req.body;
+    let user = await User.findOne({email});
+    if(user) {
+        if(user.otp == otp) {
+            // after otp and email verification auto login for further process
+            req.login(user, (err) => {
+                if(err) {
+                    return next(err);
+                }
+                return res.json({ success: true, message: `user found and otp matched` });
+            })
+        } else {
+            return res.json({ success: false, message: `otp does not match` });    
+        }
+    } else {
+        return res.json({ success: false, message: `user not find` });
+    }
+});
+
+router.get("/reset-password",isLoggedIn, (req, res, next) => {
+    res.render("users/resetPassword.ejs");
+});
+
+router.post("/reset-password", isLoggedIn, async(req, res, next) => {
+    try {
+        let {password} = req.body;
+        let user = req.user;
+
+        await User.findOneAndDelete({email: user.email});
+
+        let userOption = {
+            _id: user._id,
+            username: user.username, 
+            email: user.email, 
+            otp: user.otp, 
+            isVerified: user.isVerified,
+            bio: user.bio,
+            profile_image: user.profile_image
+        }
+        let newUser = new User(userOption);
+        const registeredUser = await User.register(newUser, password);
+        
+        req.login(registeredUser, (err) => {
+            if(err) {
+                return next(err);
+            }
+            req.flash("success", "Signup successfull");
+            res.redirect(`/`);
+        })
+    } catch(err) {
+        return next(err);
+    }
+    
+        // req.login(user, (err) => {
+        //     if(err) {
+        //         return next(err);
+        //     }
+        //     res.redirect(`/`);
+        // })
+        // const newPassword = req.body.password;
+        // const user = req.user;
+        // console.log(user);
+        // Update the password directly
+        // user.setPassword(newPassword, (err) => {
+        //     if (err) {
+        //         return res.status(500).json({ message: 'Error updating password' });
+        //     }
+        // });
+      
+    //         user.save((saveErr) => {
+    //             if (saveErr) {
+    //                 return res.status(500).json({ message: 'Error saving user after password update' });
+    //             }
+        
+    //             return res.json({ message: 'Password updated successfully' });
+    //       });
+    //     });
+    //     let newuser = await user.save();
+    //     console.log(newuser);
+    //     req.login(newuser, (err) => {
+    //         if(err) {
+    //             return next(err);
+    //         }
+});
+
+router.post("/forget-password/sendOtp", async(req, res, next) => {
+    const {email} = req.body;
+    try {
+        let otp = otpGenerator.generate(4, { 
+            upperCaseAlphabets: false, 
+            specialChars: false,
+            lowerCaseAlphabets: false,
+        });
+        let user = await User.findOneAndUpdate({email}, {email, otp});
+        if(user) {
+            mailSender(user.username, email, otp);
+
+            res.json({ success: true, message: `OTP send to ${email}` });
+        } else {
+            res.redirect("/users/forget-password");
+        }
+    } catch(err) {   // if wrong email entered by the user
+        req.flash("error", err.message);
+        res.redirect("/users/forget-password");
     }
 });
 
