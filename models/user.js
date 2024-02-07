@@ -31,7 +31,7 @@ const userSchema = new Schema({
     profile_image: {
         url: {
             type: String,
-            default: "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?w=740&t=st=1706519723~exp=1706520323~hmac=24d138e5d0dbb62517819149691d75d6832aa630914640b0d3a5e42fd5e8ebde"
+            default: "https://res.cloudinary.com/dfq5rnahw/image/upload/v1707322333/invito/default-profile-photo_blxuie.avif"
         },
         filename: String
     }

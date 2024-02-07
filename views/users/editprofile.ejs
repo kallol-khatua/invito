@@ -261,16 +261,18 @@ button + button {
 <body>
     <div class="container">
         <h1>Profile Settings<small>Edit your profile information</small></h1>
-        <form action="/users/edit" method="post" enctype="multipart/form-data">
+        <form action="/users/updateProfile" method="post" enctype="multipart/form-data">
             <div class="avatar-upload">
-                <!-- <div class="avatar-edit">
-                    <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" name="image"/>
+                <div class="avatar-edit">
+                    <input type='file' id="imageUpload" accept="image/*" name="image"/>
+                    <!-- <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" name="image"/> -->
                     <label for="imageUpload"></label>
-                </div> -->
+                </div>
                 <div class="avatar-preview">
-                    <div id="imagePreview" style="background-image: url(https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?w=740&t=st=1706519723~exp=1706520323~hmac=24d138e5d0dbb62517819149691d75d6832aa630914640b0d3a5e42fd5e8ebde); " aria-placeholder="adjgkd"></div>
+                    <div id="imagePreview" style="background-image: url('<%= user.profile_image.url %>'); " aria-placeholder="adjgkd"></div>
                 </div>
             </div>
+            <button>Update Profile Photo</button>
         </form>
             <div class="profile-info">
 
@@ -285,7 +287,7 @@ button + button {
                             <textarea id="bio" name="bio" rows="4" placeholder="Enter your bio" name="bio" ><%= currUser.bio %></textarea>
                         </label>
                         <div class="button-group">
-                          <button>Update</button>
+                          <button id="updateImage">Update</button>
                         </div>
                     </form>
                 </div>
@@ -294,7 +296,7 @@ button + button {
             </div>
         
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         function readURL(input) {
             if (input.files && input.files[0]) {
@@ -310,6 +312,11 @@ button + button {
         $("#imageUpload").change(function () {
             readURL(this);
         });
+
+
+        // document.getElementById("updateImage").addEventListener("click", function(event){
+        //   event.preventDefault()
+        // });
     </script>
 </body>
 

@@ -9,7 +9,7 @@ const otpGenerator = require('otp-generator');
 const { isLoggedIn } = require("../utils/middlewares");
 const mailSender = require("../utils/forgetPasswordMail.js");
 const multer  = require('multer');
-const {storage} = require("../cloudconfig.js");
+const {storage, cloudinary} = require("../cloudconfig.js");
 const upload = multer({ storage });
 
 router.route("/signup")
@@ -116,38 +116,20 @@ router.post("/reset-password", isLoggedIn, async(req, res, next) => {
     } catch(err) {
         return next(err);
     }
-    
-        // req.login(user, (err) => {
-        //     if(err) {
-        //         return next(err);
-        //     }
-        //     res.redirect(`/`);
-        // })
-        // const newPassword = req.body.password;
-        // const user = req.user;
-        // console.log(user);
-        // Update the password directly
-        // user.setPassword(newPassword, (err) => {
-        //     if (err) {
-        //         return res.status(500).json({ message: 'Error updating password' });
-        //     }
-        // });
-      
-    //         user.save((saveErr) => {
-    //             if (saveErr) {
-    //                 return res.status(500).json({ message: 'Error saving user after password update' });
-    //             }
-        
-    //             return res.json({ message: 'Password updated successfully' });
-    //       });
-    //     });
-    //     let newuser = await user.save();
-    //     console.log(newuser);
-    //     req.login(newuser, (err) => {
-    //         if(err) {
-    //             return next(err);
-    //         }
 });
+
+router.post("/updateProfile", isLoggedIn, upload.single("image"), async(req, res, next) => {
+    let user = req.user;
+    if(user.profile_image.filename  && req.file) {
+        await cloudinary.uploader.destroy(user.profile_image.filename);
+    }
+    if(req.file) {
+        user.profile_image.filename = req.file.filename;
+        user.profile_image.url = req.file.path;
+        await user.save();
+    }
+    res.redirect(`./${user._id}/profile`);
+})
 
 router.post("/forget-password/sendOtp", async(req, res, next) => {
     const {email} = req.body;
