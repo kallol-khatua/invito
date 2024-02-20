@@ -29,7 +29,8 @@ module.exports.signup = async (req, res, next) => {
             if(err) {
                 return next(err);
             }
-            req.flash("success", "Signup successfull");
+            // req.flash("success", "Signup successfull");
+            res.cookie('user', JSON.stringify(req.user));
             // redirect to the home page
             res.redirect("/users/verify-email");
         })
@@ -55,6 +56,7 @@ module.exports.renderLoginForm = (req, res, next) => {
 
 // if user email not verified then verify
 module.exports.login = async (req, res, next) => {
+    res.cookie('user', JSON.stringify(req.user));
     req.flash("success", "Login successfull");
     res.redirect("/");
 };

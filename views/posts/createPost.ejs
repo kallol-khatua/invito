@@ -1,311 +1,367 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Invito-connecting peoples</title>
-    <link rel="icon" href="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png"  type="image/x-icon">
-    <script src="https://kit.fontawesome.com/8f7f537382.js" crossorigin="anonymous"></script>
+    <link
+      rel="icon"
+      href="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png"
+      type="image/x-icon"
+    />
+    <script
+      src="https://kit.fontawesome.com/8f7f537382.js"
+      crossorigin="anonymous"
+    ></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"
+      integrity="sha512-tE1z+95+lMCGwy+9PnKgUSIeHhvioC9lMlI7rLWU0Ps3XTdjRygLcy4mLuL0JAoK4TLdQEyP0yOl/9dMOqpH/Q=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <style>
-        /* Your existing styles... */
+      /* Your existing styles... */
 
-        .navbar {
-            z-index: 100000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgb(253, 253, 253);
-            width: 100%;
-            height: 8vh;
-            border: 1px solid rgb(148, 131, 131);
+      .navbar {
+        z-index: 100000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgb(253, 253, 253);
+        width: 100%;
+        height: 8vh;
+        border: 1px solid rgb(148, 131, 131);
+      }
+
+      .navbar .container {
+        padding: 15px 0;
+        width: 75%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .container .logo {
+        display: flex;
+        cursor: pointer;
+        justify-content: space-between;
+        width: 70%;
+      }
+
+      @media screen and (max-width: 600px) {
+        .container {
+          width: 100% !important;
         }
 
         .navbar .container {
-            padding: 15px 0;
-            width: 75%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+          padding: 15px 10px !important;
         }
+      }
 
-        .container .logo {
-            display: flex;
-            cursor: pointer;
-            justify-content: space-between;
-            width: 70%;
-        }
+      .file-area {
+        width: 100%;
+        position: relative;
+      }
 
-        @media screen and (max-width: 600px) {
-            .container {
-                width: 100% !important;
-            }
+      .file-area input[type="file"] {
+        border: 2px solid rgb(180, 87, 87);
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        cursor: pointer;
+      }
 
-            .navbar .container {
-                padding: 15px 10px !important;
-            }
-        }
+      .file-dummy {
+        display: none;
+        height: 70px;
+        border: 2px solid;
+        text-align: center;
+        transition: background 0.3s ease-in-out;
+      }
 
-        .file-area {
-            width: 100%;
-            position: relative;
-        }
+      .file-area input[type="file"]:focus + .file-dummy {
+        outline: 2px solid rgba(255, 255, 255, 0.5);
+      }
 
-        .file-area input[type=file] {
-            border: 2px solid rgb(180, 87, 87);
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            opacity: 0;
-            cursor: pointer;
-        }
+      .file-area input[type="file"]:valid + .file-dummy {
+        border-color: rgba(0, 255, 0, 0.4);
+        height: 100%;
+        display: block;
+        overflow: hidden;
+        background-size: cover;
+        object-fit: cover;
+      }
 
-        .file-dummy {
-            display: none;
-            height: 70px;
-            border: 2px solid;
-            text-align: center;
-            transition: background 0.3s ease-in-out;
-        }
-    
-      
-        .file-area input[type=file]:focus + .file-dummy {
-            outline: 2px solid rgba(255, 255, 255, 0.5);
-        }
+      .avatar-preview {
+        height: 80vh;
 
-        .file-area input[type=file]:valid + .file-dummy {
-            border-color: rgba(0, 255, 0, 0.4);
-            height: 100%;
-            display: block;
-            overflow:hidden ;
-            background-size: cover;
-            object-fit: cover;
-        }
+        position: relative;
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+      }
 
-        .avatar-preview {
-            height: 80vh;
-            
-            position: relative;
-            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
-        }
+      .avatar-preview > div {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
 
-        .avatar-preview > div {
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
+      * {
+        box-sizing: border-box;
+        font-family: "Lato", sans-serif;
+      }
 
-        * {
-            box-sizing: border-box;
-            font-family: 'Lato', sans-serif;
-        }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-weight: 300;
+        height: 100%;
+        background: #ffffff;
+        color: #000000;
+        font-size: 16px;
+      }
 
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            font-weight: 300;
-            height: 100%;
-            background: #ffffff;
-            color: #000000;
-            font-size: 16px;
-            
-        }
+      h1 {
+        text-align: center;
+        margin: 50px auto;
+        font-weight: 100;
+      }
 
-        h1 {
-            text-align: center;
-            margin: 50px auto;
-            font-weight: 100;
-        }
+      label {
+        border: 2px solid;
+        padding: 2px;
+        font-weight: 500;
+        display: block;
+        margin: 4px 0;
+        text-transform: uppercase;
+        font-size: 13px;
+        overflow: hidden;
+      }
 
-        label {
-            border: 2px solid;
-            padding: 2px;
-            font-weight: 500;
-            display: block;
-            margin: 4px 0;
-            text-transform: uppercase;
-            font-size: 13px;
-            overflow: hidden;
-        }
+      label span {
+        border: 2px solid;
+        padding: 2px;
+        float: right;
+        text-transform: none;
+        font-weight: 200;
+        line-height: 1em;
+        font-style: italic;
+        opacity: 0.8;
+      }
 
-        label span {
-          border: 2px solid;
-            padding: 2px;
-            float: right;
-            text-transform: none;
-            font-weight: 200;
-            line-height: 1em;
-            font-style: italic;
-            opacity: 0.8;
-        }
+      .form-controll {
+        border: 2px solid;
+        padding: 2px;
+        padding: 8px 16px;
+        width: 100%;
+        font-size: 16px;
+        background-color: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: #fff;
+        font-weight: 200;
+      }
 
-        .form-controll {
-            
-          border: 2px solid;
-            padding: 2px;
-            padding: 8px 16px;
-            width: 100%;
-            font-size: 16px;
-            background-color: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: #fff;
-            font-weight: 200;
-        }
+      .form-controll:focus {
+        outline: 2px solid rgba(255, 255, 255, 0.5);
+        outline: -webkit-focus-ring-color auto 5px;
+      }
 
-        .form-controll:focus {
-            outline: 2px solid rgba(255, 255, 255, 0.5);
-            outline: -webkit-focus-ring-color auto 5px;
-        }
+      input {
+        border: 2px solid;
+        border: 2px solid;
+        padding: 2px;
+      }
 
-        input {
-            border: 2px solid;
-            border: 2px solid;
-            padding: 2px;
-        }
+      button {
+        border: 2px solid;
+        padding: 2px;
+        padding: 8px 30px;
+        background: rgba(255, 255, 255, 0.8);
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 11px;
 
-        button {
-            border: 2px solid;
-            padding: 2px;
-            padding: 8px 30px;
-            background: rgba(255, 255, 255, 0.8);
-            text-transform: uppercase;
-            font-weight: 600;
-            font-size: 11px;
-            
-            text-shadow: 0 1px 2px #222020;
-            cursor: pointer;
-        }
+        text-shadow: 0 1px 2px #222020;
+        cursor: pointer;
+      }
 
-        .form-group {
-            max-width: 500px;
-            margin: auto;
-            margin-bottom: 30px;
-        }
+      .form-group {
+        max-width: 500px;
+        margin: auto;
+        margin-bottom: 30px;
+      }
 
-        .container-post {
-           
-          border: 1px solid;
-            padding: 2px;
-            padding: 8px;
-            width: 50%;
-            box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-        }
-        section{
-         margin-top: 2px;
-          
-          width: 100vw;
-          display: flex;
-          justify-content: center;
-          
-        }
-        #imagePreview{
-          width: 100%;
-          height: 100%;
-        }
+      .container-post {
+        border: 1px solid;
+        padding: 2px;
+        padding: 8px;
+        width: 50%;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+          rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+      }
+      section {
+        margin-top: 2px;
+
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+      }
+      #imagePreview {
+        width: 100%;
+        height: 100%;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <nav class="navbar">
-        <div class="container">
-          <div class="logo">
-            <a href="/">
-                <!-- upload the logo image to cloudinary -->
-                <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706956064/invito/invito_logo_xep70u.jpg" alt="img1" height="40px">
-            </a>
-            <a href="/posts/new" class="newpost">
-                <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/post_fswon1.png" alt="New Post" height="40px">
-            </a>
-            <!-- notification -->
-            <a href="/users/notification" class="notification">
-                <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/notification-bell_rfwfjs.png" alt="Notifications" height="40px">
-            </a>
-          </div>
-          <!-- current user profile -->
-          <a href="/users/<%= currUser._id %>/profile">
-              <i class=" fa fa-solid fa-user fa-xl"></i>
+      <div class="container">
+        <div class="logo">
+          <a href="/">
+            <!-- upload the logo image to cloudinary -->
+            <img
+              src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706956064/invito/invito_logo_xep70u.jpg"
+              alt="img1"
+              height="40px"
+            />
+          </a>
+          <a href="/posts/new" class="newpost">
+            <img
+              src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/post_fswon1.png"
+              alt="New Post"
+              height="40px"
+            />
+          </a>
+          <!-- notification -->
+          <a href="/users/notification" class="notification">
+            <img
+              src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/notification-bell_rfwfjs.png"
+              alt="Notifications"
+              height="40px"
+            />
           </a>
         </div>
+        <!-- current user profile -->
+        <a href="/users/<%= currUser._id %>/profile">
+          <i class="fa fa-solid fa-user fa-xl"></i>
+        </a>
+      </div>
     </nav>
-<section>
-    <div class="container-post">
-        <form action="/posts" method="post" enctype="multipart/form-data" onsubmit="validateForm()">
-            <div class="form-group">
-              <label for="content">Enter information for the post</label>
-               <textarea type="text" required placeholder="Enter here" name="content" id="content" class="form-controll" style="color: #000000; text-shadow: #000000;font-weight: 600; border: 2px solid;"></textarea>
-            </div>
+    <section>
+      <div class="container-post">
+        <form
+          action="/posts"
+          method="post"
+          enctype="multipart/form-data"
+          onsubmit="validateForm()"
+        >
+          <div class="form-group">
+            <label for="content">Enter information for the post</label>
+            <textarea
+              type="text"
+              required
+              placeholder="Enter here"
+              name="content"
+              id="content"
+              class="form-controll"
+              style="
+                color: #000000;
+                text-shadow: #000000;
+                font-weight: 600;
+                border: 2px solid;
+              "
+            ></textarea>
+          </div>
 
-            <div class="form-group file-area">
-              <!-- Replace the file input with a button -->
-              <button type="button" id="imageButton">Add Image</button>
-              <input type="file" name="image" id="image" required/>
-              <div  class="file-dummy"> 
-                <div class="avatar-preview" >
-                    <div id="imagePreview" style="background-image: url(https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?w=740&t=st=1706519723~exp=1706520323~hmac=24d138e5d0dbb62517819149691d75d6832aa630914640b0d3a5e42fd5e8ebde); " aria-placeholder="adjgkd"></div>
-                </div>
+          <div class="form-group file-area">
+            <!-- Replace the file input with a button -->
+            <button type="button" id="imageButton">Add Image</button>
+            <input type="file" name="image" id="image" required />
+            <div class="file-dummy">
+              <div class="avatar-preview">
+                <div
+                  id="imagePreview"
+                  style="
+                    background-image: url(https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?w=740&t=st=1706519723~exp=1706520323~hmac=24d138e5d0dbb62517819149691d75d6832aa630914640b0d3a5e42fd5e8ebde);
+                  "
+                  aria-placeholder="adjgkd"
+                ></div>
               </div>
             </div>
-            
-            <div class="form-group">
-              <button type="submit" onclick="validateForm()" >Post It</button>
-              <div class="error-message"></div>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" onclick="validateForm()">Post It</button>
+            <div class="error-message"></div>
           </div>
         </form>
 
-        <link href='https://fonts.googleapis.com/css?family=Lato:100,200,300,400,500,600,700' rel='stylesheet' type='text/css'>
-    </div>
-  </section>
+        <link
+          href="https://fonts.googleapis.com/css?family=Lato:100,200,300,400,500,600,700"
+          rel="stylesheet"
+          type="text/css"
+        />
+      </div>
+    </section>
 
     <script>
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#imagePreview').css('background-image', 'url(' + e.target.result + ')');
-                    $('#imagePreview').hide();
-                    $('#imagePreview').fadeIn(650);
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
+      const sender_id = "<%= currUser._id %>";
+      let socket = io("/user-namespace", {
+        auth: {
+          token: sender_id,
+        },
+      });
+      function readURL(input) {
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            $("#imagePreview").css(
+              "background-image",
+              "url(" + e.target.result + ")"
+            );
+            $("#imagePreview").hide();
+            $("#imagePreview").fadeIn(650);
+          };
+          reader.readAsDataURL(input.files[0]);
         }
-        function validateForm() {
-    var caption = $("#content").val();
-    var images = $("#image")[0].files;
+      }
+      function validateForm() {
+        var caption = $("#content").val();
+        var images = $("#image")[0].files;
 
-    // Check if caption and image are empty
-    if (caption.trim() === "" && images.length === 0) {
-        $(".error-message").text("Content and image cannot be empty");
-        return false;
-    } else if (caption.trim() === "") {
-        $(".error-message").text("Content cannot be empty");
-        return false;
-    } else if (images.length === 0) {
-        $(".error-message").text("Image cannot be empty");
-        return false;
-    } else {
-        // Clear any previous error messages
-        $(".error-message").text("");
-        return true;
-    }
-}
+        // Check if caption and image are empty
+        if (caption.trim() === "" && images.length === 0) {
+          $(".error-message").text("Content and image cannot be empty");
+          return false;
+        } else if (caption.trim() === "") {
+          $(".error-message").text("Content cannot be empty");
+          return false;
+        } else if (images.length === 0) {
+          $(".error-message").text("Image cannot be empty");
+          return false;
+        } else {
+          // Clear any previous error messages
+          $(".error-message").text("");
+          return true;
+        }
+      }
 
+      // Trigger the file input's click event when the button is clicked
+      $("#imageButton").click(function () {
+        $("#image").click();
+        $("#file-dummy").addClass("file-dummy");
+      });
 
-        // Trigger the file input's click event when the button is clicked
-        $("#imageButton").click(function () {
-            $("#image").click();
-            $("#file-dummy").addClass("file-dummy")
-        });
-
-        $("#image").change(function () {
-            readURL(this);
-        });
+      $("#image").change(function () {
+        readURL(this);
+      });
     </script>
-</body>
+  </body>
 </html>

@@ -34,6 +34,14 @@ const userSchema = new Schema({
             default: "https://res.cloudinary.com/dfq5rnahw/image/upload/v1707322333/invito/default-profile-photo_blxuie.avif"
         },
         filename: String
+    },
+    is_online: {
+        type:String,
+        default: "0"
+    },
+    socket_id : {
+        type: String,
+        default: ""
     }
 });
 
