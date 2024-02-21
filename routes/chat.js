@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/user");
 const { isLoggedIn } = require("../utils/middlewares");
 const Chat = require("../models/chat");
+const Group = require("../models/group");
 const router = express.Router();
 
 router.get("/dashboard", isLoggedIn, async(req, res, next) => {
@@ -24,5 +25,34 @@ router.post("/saveChat",isLoggedIn, async(req, res, next) => {
         res.status(400).send({success: false, message: error.message});
     }
 })
+
+// render group page with user created groups 
+router.get("/groups", isLoggedIn, async(req, res, next) => {
+    let groups = await Group.find({creator: req.user._id});
+    res.render("chats/groups.ejs", {groups});
+});
+
+// create new group and save details to database
+router.post("/groups", isLoggedIn, async(req, res, next) => {
+    let newGroup = new Group({
+        creator: req.user,
+        name: req.body.name
+    });
+    await newGroup.save();
+    res.redirect('/chats/groups')
+});
+
+// find member and send data to frontend
+router.post("/members", isLoggedIn, async(req, res, next) => {
+    try{
+        // group id came form the frontend at the time of ajax request 
+        // console.log(req.body);
+        let users = await User.find({_id: {$nin: [req.user._id]}});
+        // console.log(users);
+        res.status(200).send({success: true, users});
+    }catch(err) {
+        res.status(400).send({success: false, message: err.message});
+    }   
+});
 
 module.exports = router;

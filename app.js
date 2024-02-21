@@ -31,7 +31,7 @@ const { isLoggedIn, isVerified } = require('./utils/middlewares');
 const Chat = require('./models/chat');
 
 async function main() {
-    await mongoose.connect(process.env.ATLAS_URL);
+    await mongoose.connect(process.env.MONGO_URL);
 }
 
 main()
@@ -58,7 +58,7 @@ app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 const store = MongoStore.create({
-    mongoUrl: process.env.ATLAS_URL,
+    mongoUrl: process.env.MONGO_URL,
     crypto: {
         secret: process.env.SECRET
     },
