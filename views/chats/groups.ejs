@@ -103,13 +103,12 @@
                 <div class="modal-header">
                     <h5 class="modal-title fs-5" id="exampleModalLabel">Members</h5>
                 </div>
-
                 <div class="modal-body">
-                    <!-- <input type="hidden" name="group_id" id="group_id"> -->
+                    <input type="hidden" name="group_id" id="group_id">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Sl.No.</th>
+                                <th scope="col">Select</th>
                                 <th scope="col">Member name</th>
                             </tr>
                         </thead>
@@ -117,12 +116,13 @@
                             <!-- for making the user list scrollable -->
                             <tr>
                                 <td colspan="2">
-                                    <!-- to insert the member list -->
-                                    <table class="table">
-                                        <tbody id="addMemberINTable">
-                                            
-                                        </tbody>
-                                    </table>
+                                    <!-- to insert the member list and make it scrollable -->
+                                    <div class="addMemberTable">
+                                        <table class="table">
+                                            <tbody id="addMemberInTable">
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </td> 
                             </tr>
                         </tbody>
@@ -130,8 +130,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Update member</button>
+                    <button type="submit" class="btn btn-primary" id="addMemberButton">Update member</button>
                 </div>
+                
             </div>
         </div>
     </div>

@@ -3,6 +3,7 @@ const User = require("../models/user");
 const { isLoggedIn } = require("../utils/middlewares");
 const Chat = require("../models/chat");
 const Group = require("../models/group");
+const Member = require("../models/member");
 const router = express.Router();
 
 router.get("/dashboard", isLoggedIn, async(req, res, next) => {
@@ -50,6 +51,24 @@ router.post("/members", isLoggedIn, async(req, res, next) => {
         let users = await User.find({_id: {$nin: [req.user._id]}});
         // console.log(users);
         res.status(200).send({success: true, users});
+    }catch(err) {
+        res.status(400).send({success: false, message: err.message});
+    }   
+});
+
+// add members for a group
+router.post("/addMembers", isLoggedIn, async(req, res, next) => {
+    try{
+        await Member.deleteMany({group_id: req.body.group_id})
+        let data = [];
+        for (member of req.body.addMemberId) {
+            data.push({
+                group_id: req.body.group_id,
+                member_id: member
+            })
+        }
+        await Member.insertMany(data);
+        res.status(200).send({success: true, message: "Members updated"});
     }catch(err) {
         res.status(400).send({success: false, message: err.message});
     }   

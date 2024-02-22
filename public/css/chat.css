@@ -41,6 +41,7 @@
     cursor: pointer;
 }
 
-#addMemberINTable {
+.addMemberTable {
     overflow-y: scroll;
+    height: 200px;
 }

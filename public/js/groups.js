@@ -18,15 +18,15 @@ let socket = io("/user-namespace", {
     },
 });
 
+// show member list in a modal whiel clicking Members 
 let members = document.getElementsByClassName("addMembers");
 // console.dir(members)
 for (member of members) {
-
     member.addEventListener("click", (event) => {
+        let group_id = document.getElementById("group_id");
+        group_id.value = event.target.id;
         let groupId = event.target.id;
         // console.log(groupId);
-        let table = document.getElementById("addMemberINTable");
-        table.innerHTML = "";
         const xhr = new XMLHttpRequest();
         xhr.open('POST', '/chats/members', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -37,17 +37,17 @@ for (member of members) {
                 if (xhr.status === 200) {
                     const response = JSON.parse(xhr.responseText);
                     if (response.success) {
-                        let sl = 1;
                         let html = '';
                         for (user of response.users) {
                             html += `<tr>
                             <td>
-                                <input type="checkbox" name="members[]" value="${user._id}">
-                                ${sl++}
+                                <input type="checkbox" class="memberList" value="${user._id}">
                             </td> 
                             <td>${user.username}</td> 
                             </tr>`
                         }
+                        let table = document.getElementById("addMemberInTable");
+                        table.innerHTML = "";
                         table.insertAdjacentHTML("beforeend", html);
                     } else {
                         alert(response.message);
@@ -60,3 +60,43 @@ for (member of members) {
         xhr.send(data);
     })
 }
+
+// update member to the database
+let addMemberButton = document.getElementById("addMemberButton");
+addMemberButton.addEventListener("click", () => {
+    let group_id = document.getElementById("group_id").value;
+    let memberList = document.getElementsByClassName("memberList");
+    let addMemberId = [];
+    // selecting the user id which are checked
+    for(member of memberList) {
+        if(member.checked == true){
+            addMemberId.push(member.value);   
+        }
+    }
+    // ajax request to update member list
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/chats/addMembers", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    // data that will be send to the backend
+    let addMemberDetails = {
+        group_id: group_id,
+        addMemberId: addMemberId
+    };
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    window.location.href = "/chats/groups"
+                } else {
+                    alert(response.success);
+                }
+            } else {
+                alert("Error occurred while making the request");
+            }
+        }
+    };
+    let jsonData = JSON.stringify(addMemberDetails);
+    xhr.send(jsonData);
+})
