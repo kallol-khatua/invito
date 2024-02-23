@@ -4,7 +4,10 @@ const { isLoggedIn } = require("../utils/middlewares");
 const Chat = require("../models/chat");
 const Group = require("../models/group");
 const Member = require("../models/member");
+const mongoose = require("mongoose");
+const ExpressError = require("../utils/ExpressError");
 const router = express.Router();
+
 
 router.get("/dashboard", isLoggedIn, async(req, res, next) => {
     // send user except the xurrent user
@@ -47,8 +50,38 @@ router.post("/groups", isLoggedIn, async(req, res, next) => {
 router.post("/members", isLoggedIn, async(req, res, next) => {
     try{
         // group id came form the frontend at the time of ajax request 
-        // console.log(req.body);
-        let users = await User.find({_id: {$nin: [req.user._id]}});
+        // console.log(req.body); .find({_id: {$nin: [req.user._id]}});
+        // console.log(req.body.groupId)
+        
+        let users = await User.aggregate([
+            {
+                $lookup: {
+                    from: "Member",
+                    localField: "_id",
+                    foreignField: "member_id",
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        {$eq: ["$group_id", req.body.groupId]}
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    as: "member"
+                }
+            },
+            {
+                $match: {
+                    "_id": {
+                        $nin: [req.user._id]
+                    }
+                }
+            }
+        ]);
+
         // console.log(users);
         res.status(200).send({success: true, users});
     }catch(err) {
@@ -73,5 +106,50 @@ router.post("/addMembers", isLoggedIn, async(req, res, next) => {
         res.status(400).send({success: false, message: err.message});
     }   
 });
+
+// when click on the group share link deciding how can join the group
+router.get("/share-group/:id", isLoggedIn, async(req, res, next) => {
+    try{
+        let {id} = req.params;
+        let group = await Group.findById(id).populate("creator");
+
+        // if group not found or group does not exist then show page not found page
+        if(!group){
+            return next(new ExpressError(404, "Page not found"));
+        }
+
+        // creator of group will not be able to join the group
+        if(String(group.creator._id) == String(req.user._id)){
+            return res.render("./chats/shareGroup.ejs", {group: group, message: "Creator"})
+        } 
+        
+        // if already member then will not be able to join the group
+        let member = await Member.find({group_id: id, member_id: req.user._id});
+        // console.log(member);
+        if(member.length > 0) {
+            return res.render("./chats/shareGroup.ejs", {group: group, message: "Member"})
+        }
+        
+        return res.render("./chats/shareGroup.ejs", {group: group, message: "join"})
+    }catch(err){
+        // console.log("catch")
+        return next(new ExpressError(404, "Page not found"));
+    }
+});
+
+// add member from share join link
+router.post("/join-group", async(req, res, next) => {
+    try{
+        let member = await Member.find({group_id: req.body.groupId, member_id: req.user._id});
+        if(member.length > 0) {
+            return res.status(200).send({success: false, message: "already member"});
+        }
+        let newMember = new Member({group_id: req.body.groupId, member_id: req.user._id});
+        await newMember.save();
+        return res.status(200).send({success: true, message: "become a member"});
+    }catch(err) {
+        return res.status(200).send({success: false, message: "error"});
+    }
+})
 
 module.exports = router;

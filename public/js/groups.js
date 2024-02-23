@@ -18,6 +18,8 @@ let socket = io("/user-namespace", {
     },
 });
 
+
+// ------------------- showing member list -------------------- //
 // show member list in a modal whiel clicking Members 
 let members = document.getElementsByClassName("addMembers");
 // console.dir(members)
@@ -37,6 +39,7 @@ for (member of members) {
                 if (xhr.status === 200) {
                     const response = JSON.parse(xhr.responseText);
                     if (response.success) {
+                        // console.log(response.users)
                         let html = '';
                         for (user of response.users) {
                             html += `<tr>
@@ -61,6 +64,8 @@ for (member of members) {
     })
 }
 
+
+// ------------------ update group member ----------------------- //
 // update member to the database
 let addMemberButton = document.getElementById("addMemberButton");
 addMemberButton.addEventListener("click", () => {
@@ -100,3 +105,32 @@ addMemberButton.addEventListener("click", () => {
     let jsonData = JSON.stringify(addMemberDetails);
     xhr.send(jsonData);
 })
+
+
+// ------------------------ copy shareable link -------------------------- //
+
+let copys = document.getElementsByClassName("copy");
+for (copy of copys) {
+    copy.addEventListener("click", async(event) => {
+        let groupId = event.target.id;
+
+        let url = window.location.origin + "/chats/share-group/" + groupId;
+        // console.log(url);
+
+        const newSpan = document.createElement("h3");
+        newSpan.innerText = "Copied";
+        newSpan.classList.add("copied_text");
+        let div = document.getElementById("copied_text");
+        div.appendChild(newSpan)
+        setTimeout(() => {
+            div.innerHTML ="";
+        }, 1700);
+
+        try {
+            // Use the Clipboard API to copy the text to the clipboard
+            await navigator.clipboard.writeText(url);
+        } catch (err) {
+            console.error('Unable to copy URL to clipboard', err);
+        } 
+    })
+}

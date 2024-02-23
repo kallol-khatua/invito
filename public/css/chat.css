@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+body{
+    overflow: hidden;
+}
+
 #chat-container {
     background-color: rgb(175, 175, 232);
     height: 80vh;
@@ -44,4 +48,10 @@
 .addMemberTable {
     overflow-y: scroll;
     height: 200px;
+}
+
+#copied_text {
+    text-align: center;
+    background-color: aquamarine;
+    font-size: larger;
 }
