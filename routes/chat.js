@@ -152,4 +152,11 @@ router.post("/join-group", async(req, res, next) => {
     }
 })
 
+// render group dashboard
+router.get("/group-dashboard", isLoggedIn, async(req, res, next) => {
+    let createdGroup = await Group.find({creator: req.user._id});
+    let joinedGroup = await Member.find({member_id: req.user._id}).populate("group_id");
+    res.render("chats/group-dashboard.ejs", {createdGroup: createdGroup, joinedGroup: joinedGroup});
+});
+
 module.exports = router;
