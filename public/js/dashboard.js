@@ -19,11 +19,15 @@ let socket = io("/user-namespace", {
     },
 });
 
-
+// save message to database
 let btn = document.getElementById("conversation-form-button")
 btn.addEventListener("click", () => {
     let inputMessage = document.getElementById("conversation-main-message");
-    let message = inputMessage.value;
+    let message = inputMessage.value.trim();
+    console.log(message)
+    if (message == "") {
+        return;
+    }
     // console.log(message);
 
     // send request to the server to show interest
@@ -72,52 +76,53 @@ btn.addEventListener("click", () => {
     xhr.send(jsonData);
 })
 
-let form = document.getElementById("chat-form");
-form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    console.log("working");
-    // let inputMessage = document.getElementById("message");
-    // let message = inputMessage.value;
+// let form = document.getElementById("chat-form");
+// form.addEventListener("submit", (event) => {
+//     event.preventDefault();
+//     console.log("working");
+// let inputMessage = document.getElementById("message");
+// let message = inputMessage.value;
 
-    // // send request to the server to show interest
-    // // Make an AJAX request to the server
-    // const xhr = new XMLHttpRequest();
-    // xhr.open("POST", "/chats/saveChat", true);
-    // xhr.setRequestHeader("Content-Type", "application/json");
+// // send request to the server to show interest
+// // Make an AJAX request to the server
+// const xhr = new XMLHttpRequest();
+// xhr.open("POST", "/chats/saveChat", true);
+// xhr.setRequestHeader("Content-Type", "application/json");
 
-    // let chatData = {
-    //     receiver_id: receiver_id,
-    //     sender_id: sender_id,
-    //     message: message,
-    // };
-    // inputMessage.value = "";
+// let chatData = {
+//     receiver_id: receiver_id,
+//     sender_id: sender_id,
+//     message: message,
+// };
+// inputMessage.value = "";
 
-    // xhr.onreadystatechange = function () {
-    //     if (xhr.readyState === XMLHttpRequest.DONE) {
-    //         if (xhr.status === 200) {
-    //             const response = JSON.parse(xhr.responseText);
-    //             if (response.success) {
-    //                 let chat = response.data.message;
-    //                 let html = `<div class="curr-user-chat"><h5>${chat}</h5></div>`;
-    //                 let chatContainer = document.getElementById("chat-container");
-    //                 chatContainer.insertAdjacentHTML("beforeend", html);
-    //                 chatContainer.scrollTop = chatContainer.scrollHeight;
-    //                 // send current chat on the receiver side
-    //                 socket.emit("newChat", response.data);
-    //             } else {
-    //                 alert(response.message);
-    //             }
-    //         } else {
-    //             alert("Error occurred while making the request");
-    //         }
-    //     }
-    // };
-    // // Send the request with the data
-    // let jsonData = JSON.stringify(chatData);
-    // xhr.send(jsonData);
-});
+// xhr.onreadystatechange = function () {
+//     if (xhr.readyState === XMLHttpRequest.DONE) {
+//         if (xhr.status === 200) {
+//             const response = JSON.parse(xhr.responseText);
+//             if (response.success) {
+//                 let chat = response.data.message;
+//                 let html = `<div class="curr-user-chat"><h5>${chat}</h5></div>`;
+//                 let chatContainer = document.getElementById("chat-container");
+//                 chatContainer.insertAdjacentHTML("beforeend", html);
+//                 chatContainer.scrollTop = chatContainer.scrollHeight;
+//                 // send current chat on the receiver side
+//                 socket.emit("newChat", response.data);
+//             } else {
+//                 alert(response.message);
+//             }
+//         } else {
+//             alert("Error occurred while making the request");
+//         }
+//     }
+// };
+// // Send the request with the data
+// let jsonData = JSON.stringify(chatData);
+// xhr.send(jsonData);
+// });
 
-function showDashboard(userId, is_online, username, profile_image) {
+// show chat area
+function showDashboard(userId, username, profile_image) {
     let conversation = document.getElementById("conversation-1");
     let conversationDefault = document.getElementById("conversation-default");
 
@@ -143,12 +148,13 @@ function showDashboard(userId, is_online, username, profile_image) {
     document.getElementById("conversation-top-image").setAttribute("src", profile_image);
 
     let status = document.getElementById("conversation-top-status");
-    if (is_online == 0) {
-        status.innerText = "Offline";
+    let statusUser = document.getElementById(userId + "-status");
+    status.innerText = statusUser.innerText;
+
+    if (status.innerText == "Offline") {
         status.classList.remove("online");
         status.classList.add("offline")
-    } else {
-        status.innerText = "Online"
+    } else if (status.innerText == "Online") {
         status.classList.remove("offline");
         status.classList.add("online");
     }
@@ -170,25 +176,48 @@ function conversationBack() {
     inputMessage.value = "";
 }
 
-// socket.on("getOnlineUser", (data) => {
-//     let status = document.getElementById(data + "-status");
-//     status.innerText = "Online";
-//     status.classList.remove("offline-status");
-//     status.classList.add("online-status");
-// });
+// when get a user online 
+socket.on("getOnlineUser", (data) => {
+    let status = document.getElementById(data + "-status");
+    status.innerText = "Online";
+    status.classList.remove("offline-status");
+    status.classList.add("online-status");
 
-// socket.on("getOfflineUser", (data) => {
-//     let status = document.getElementById(data + "-status");
-//     // console.log(status)
-//     status.innerText = "Offline";
-//     status.classList.remove("online-status");
-//     status.classList.add("offline-status");
-// });
+    if (data == receiver_id) {
+        let status = document.getElementById("conversation-top-status");
+        status.innerText = "Online";
+
+        status.classList.remove("offline");
+        status.classList.add("online");
+
+    }
+});
+
+// when get a user offline 
+socket.on("getOfflineUser", (data) => {
+    let status = document.getElementById(data + "-status");
+    // console.log(status)
+    status.innerText = "Offline";
+    status.classList.remove("online-status");
+    status.classList.add("offline-status");
+    if (data == receiver_id) {
+        let status = document.getElementById("conversation-top-status");
+        status.innerText = "Offline";
+
+        status.classList.remove("online");
+        status.classList.add("offline");
+
+    }
+});
 
 // // load current chat on the receiver side
 socket.on("loadNewChat", (data) => {
     if (sender_id == data.receiver_id && receiver_id == data.sender_id) {
-        html = `<li class="conversation-item">
+        let typing = document.getElementById("typing");
+        if(typing){
+            typing.remove();
+        }
+        let html = `<li class="conversation-item">
             <div class="conversation-item-wrapper">
                         <div class="conversation-item-box">
                             <div class="conversation-item-text">
@@ -239,3 +268,28 @@ socket.on("loadChats", (data) => {
 
     chatContainer.scrollTop = chatContainer.scrollHeight;
 });
+
+let inputField = document.getElementById("conversation-main-message");
+inputField.addEventListener("keyup", () => {
+    socket.emit("typing", { receiver_id, sender_id });
+})
+
+socket.on("typing-receiver", (data) => {
+    if (receiver_id == data.sender_id) {
+        let typing = document.getElementById("typing");
+        if (!typing) {
+            let html = `<li class="conversation-item" id="typing">
+            <div class="conversation-item-wrapper">
+                        <div class="conversation-item-box">
+                            <div class="conversation-item-text">
+                               <p>typing</p>
+                            </div>
+                        </div>
+                    </div></li>`;
+            let chatContainer = document.getElementById("conversation-main-container");
+            chatContainer.insertAdjacentHTML("beforeend", html);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+    }
+})

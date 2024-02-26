@@ -115,6 +115,11 @@ usp.on('connection', async (socket) => {
         usp.to(receiver.socket_id).emit('loadNewChat', data);
     });
 
+    socket.on("typing", async (data) => {
+        let receiver = await User.findById(data.receiver_id);
+        usp.to(receiver.socket_id).emit("typing-receiver", data)
+    })
+
     // implementing old chat
     socket.on("getChats", async (data) => {
         let chats = await Chat.find({

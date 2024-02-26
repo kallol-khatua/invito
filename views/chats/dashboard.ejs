@@ -98,7 +98,7 @@
             <div class="content-messages">
               <ul class="content-messages-list">
                 <% for(user of users) { %>
-                <li id="<%= user._id %>" onclick="showDashboard('<%= user._id %>', '<%= user.is_online %>', '<%= user.username %>', '<%= user.profile_image.url %>')">
+                <li id="<%= user._id %>" onclick="showDashboard('<%= user._id %>', '<%= user.username %>', '<%= user.profile_image.url %>')">
                   <!-- , user.username, user.is_online, user.profile_image.url -->
                   <a >
                     <img
@@ -162,7 +162,7 @@
                 />
                 <div>
                   <div class="conversation-user-name" id="conversation-top-username"></div>
-                  <div class="conversation-user-status" id="conversation-top-status">online</div>
+                  <div class="conversation-user-status" id="conversation-top-status"></div>
                 </div>
               </div>
               <div class="conversation-buttons">
@@ -187,9 +187,11 @@
                 </button> -->
                 <form action="#" id="chat-form"></form>
                   <input
+                  type="text"
                     class="conversation-form-input"
                     placeholder="Type here..."
                     id="conversation-main-message"
+                    required
                   >
                   <!-- <button type="button" class="conversation-form-record">
                     <i class="ri-mic-line"></i>

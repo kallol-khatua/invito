@@ -730,6 +730,9 @@ height: 80vh;
 }
 
 @media screen and (max-width: 767px) {
+  /* .conversation-top{
+    position: fixed;
+  } */
   .chat-sidebar {
     top: unset;
     bottom: 0;
