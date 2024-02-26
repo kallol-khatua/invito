@@ -115,6 +115,7 @@ usp.on('connection', async (socket) => {
         usp.to(receiver.socket_id).emit('loadNewChat', data);
     });
 
+    // listen to the typing status and send typing alert to the receiver
     socket.on("typing", async (data) => {
         let receiver = await User.findById(data.receiver_id);
         usp.to(receiver.socket_id).emit("typing-receiver", data)

@@ -48,6 +48,10 @@ btn.addEventListener("click", () => {
             if (xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
                 if (response.success) {
+                    let typing = document.getElementById("typing");
+                    if (typing) {
+                        typing.remove();
+                    }
                     let chat = response.data.message;
                     html = `<li class="conversation-item me">
                                 <div class="conversation-item-wrapper">
@@ -214,7 +218,7 @@ socket.on("getOfflineUser", (data) => {
 socket.on("loadNewChat", (data) => {
     if (sender_id == data.receiver_id && receiver_id == data.sender_id) {
         let typing = document.getElementById("typing");
-        if(typing){
+        if (typing) {
             typing.remove();
         }
         let html = `<li class="conversation-item">
@@ -269,12 +273,15 @@ socket.on("loadChats", (data) => {
     chatContainer.scrollTop = chatContainer.scrollHeight;
 });
 
+// when sender will start typing send typing alert to the receiver
 let inputField = document.getElementById("conversation-main-message");
 inputField.addEventListener("keyup", () => {
     socket.emit("typing", { receiver_id, sender_id });
 })
 
+// catch typing 
 socket.on("typing-receiver", (data) => {
+    // when receiver will also open the sender screen then it will work
     if (receiver_id == data.sender_id) {
         let typing = document.getElementById("typing");
         if (!typing) {
@@ -290,6 +297,5 @@ socket.on("typing-receiver", (data) => {
             chatContainer.insertAdjacentHTML("beforeend", html);
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
-
     }
 })
