@@ -108,8 +108,7 @@
               <ul class="content-messages-list">
                 <% for(user of users) { %>
                 <li id="<%= user._id %>" onclick="showDashboard('<%= user._id %>', '<%= user.username %>', '<%= user.profile_image.url %>')">
-                  <!-- , user.username, user.is_online, user.profile_image.url -->
-                  <a >
+                  <a>
                     <img
                       class="content-message-image"
                       src="<%= user.profile_image.url %>"
@@ -139,8 +138,8 @@
                       </span>
                     </span>
 
-                    <% } %>
                   </a>
+                  <% } %>
                 </li>
               </ul>
             </div>

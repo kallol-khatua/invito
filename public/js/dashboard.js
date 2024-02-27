@@ -339,7 +339,7 @@ inputField.addEventListener("keyup", () => {
         if(secondsDifference >= 4){
             socket.emit("stop-typing", { receiver_id, sender_id });
         }
-    }, 4500);
+    }, 4200);
     socket.emit("typing", { receiver_id, sender_id });
 })
 

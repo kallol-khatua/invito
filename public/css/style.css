@@ -250,14 +250,14 @@ body {
 
 .content-messages-list {
   list-style-type: none;
-  padding: 8px 0;
+  padding-bottom: 8px;
 }
 .content-messages-list > * > a {
   display: flex;
   align-items: center;
   text-decoration: none;
   color: var(--slate-700);
-  padding: 6px 16px;
+  padding: 6px ;
 }
 .content-messages-list > * > a:hover {
   background-color: var(--slate-50);
@@ -621,12 +621,19 @@ height: 80vh;
 }
 
 .conversation-form {
-    padding: 8px 16px;
+    padding: 4px ;
     background-color: var(--white);
   
-   
-   min-height: 10vh;
-    border: 2px solid red;
+   position: fixed;
+   bottom: 0px;}
+  
+    
+.content-messages ul{
+  padding-bottom: 22px;
+ 
+}
+.content-messages .content-messages-list{
+  padding-bottom: 22px;
 }
 
 .conversation-form-group {
