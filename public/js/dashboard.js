@@ -26,6 +26,7 @@ btn.addEventListener("click", () => {
     let message = inputMessage.value.trim();
     console.log(message)
     if (message == "") {
+        inputMessage.value = "";
         return;
     }
     // console.log(message);
@@ -99,7 +100,7 @@ searchButton.addEventListener("click", () => {
                 if (response.success) {
                     console.log(response);
                     let status;
-                    if(response.user.is_online=="1" ) { 
+                    if (response.user.is_online == "1") {
                         status = `<sup class="online-status" id="${response.user._id}-status">Online</sup>`
                     } else {
                         status = `<sup class="offline-status" id="${response.user._id}-status">Offline</sup>`
@@ -118,8 +119,8 @@ searchButton.addEventListener("click", () => {
                       </span>
                     </a>
                   </li>`
-                  let chatContainer = document.getElementById("user-list");
-                  chatContainer.insertAdjacentHTML("beforeend", html);
+                    let chatContainer = document.getElementById("user-list");
+                    chatContainer.insertAdjacentHTML("beforeend", html);
                 } else {
                     console.log(response);
                 }
@@ -325,11 +326,23 @@ socket.on("loadChats", (data) => {
     chatContainer.scrollTop = chatContainer.scrollHeight;
 });
 
+let lastTyping;
 // when sender will start typing send typing alert to the receiver
 let inputField = document.getElementById("conversation-main-message");
 inputField.addEventListener("keyup", () => {
+    lastTyping = new Date();
+    // when user will not type for 5 second then send stop typing alert
+    setTimeout(() => {
+        let currentDate = new Date();
+        let timeDifference = currentDate - lastTyping;
+        let secondsDifference = Math.floor(timeDifference / 1000);
+        if(secondsDifference >= 4){
+            socket.emit("stop-typing", { receiver_id, sender_id });
+        }
+    }, 4500);
     socket.emit("typing", { receiver_id, sender_id });
 })
+
 
 // catch typing 
 socket.on("typing-receiver", (data) => {
@@ -353,5 +366,16 @@ socket.on("typing-receiver", (data) => {
             chatContainer.insertAdjacentHTML("beforeend", html);
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
+    }
+})
+
+// catch typing 
+socket.on("stop-typing-receiver", (data) => {
+    // when receiver will also open the sender screen then it will work
+    if (receiver_id == data.sender_id) {
+        let typing = document.getElementById("typing");
+        if (typing) {
+            typing.remove();
+        } 
     }
 })
