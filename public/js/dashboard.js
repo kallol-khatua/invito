@@ -80,6 +80,58 @@ btn.addEventListener("click", () => {
     xhr.send(jsonData);
 })
 
+// search user by username and start 
+let searchButton = document.getElementById("search-user-btn-conversation-default");
+let searchInputField = document.getElementById("search-user-conversation-default");
+searchButton.addEventListener("click", () => {
+    let username = searchInputField.value;
+    console.log(username);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/chats/searchUser', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+    // Set up the data to send to the server
+    const data = `username=${username}`
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    console.log(response);
+                    let status;
+                    if(response.user.is_online=="1" ) { 
+                        status = `<sup class="online-status" id="${response.user._id}-status">Online</sup>`
+                    } else {
+                        status = `<sup class="offline-status" id="${response.user._id}-status">Offline</sup>`
+                    }
+                    let html = `<li id="${response.user._id}" onclick="showDashboard('${response.user._id}', '${response.user.username}', '${response.user.profile_image.url}')">
+                    <a >
+                        <img class="content-message-image" src="${response.user.profile_image.url}" alt="" id=""/>
+                        <span class="content-message-info mb-2"> 
+                            <div id="${response.user._id}"></div>
+                            <span class="content-message-name" >${response.user.username}</span>
+                        </span>
+                      <span class="content-message-more">
+                        <span>
+                          ${status}
+                        </span>
+                      </span>
+                    </a>
+                  </li>`
+                  let chatContainer = document.getElementById("user-list");
+                  chatContainer.insertAdjacentHTML("beforeend", html);
+                } else {
+                    console.log(response);
+                }
+            } else {
+                alert('Error occurred while making the request');
+            }
+        }
+    }
+    // Send the request with the data
+    xhr.send(data);
+})
+
 // let form = document.getElementById("chat-form");
 // form.addEventListener("submit", (event) => {
 //     event.preventDefault();
@@ -289,7 +341,11 @@ socket.on("typing-receiver", (data) => {
             <div class="conversation-item-wrapper">
                         <div class="conversation-item-box">
                             <div class="conversation-item-text">
-                               <p>typing</p>
+                                <div class="dot-container">
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                </div>
                             </div>
                         </div>
                     </div></li>`;

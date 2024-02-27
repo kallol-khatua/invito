@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -31,6 +32,11 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <style>
+      .conversation-item-text  p{
+        margin-bottom: 0rem;
+      }
+    </style>
   </head>
 
   <body>
@@ -39,14 +45,14 @@
       <div class="chat-container">
         <!-- start: Sidebar -->
         <aside class="chat-sidebar" id="chat-sidebar" >
-          <a href="#" class="chat-sidebar-logo">
-            <i class="ri-chat-1-fill"></i>
+          <a href="/" class="chat-sidebar-logo">
+            <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png">
           </a>
           <ul class="chat-sidebar-menu">
             <li class="active">
-              <a href="#" data-title="Chats"><i class="ri-chat-3-line"></i></a>
+              <a href="/chats/dashboard" data-title="Chats"><i class="ri-chat-3-line"></i></a>
             </li>
-            <li>
+            <!-- <li>
               <a href="#" data-title="Contacts"
                 ><i class="ri-contacts-line"></i
               ></a>
@@ -60,20 +66,23 @@
               <a href="#" data-title="Settings"
                 ><i class="ri-settings-line"></i
               ></a>
-            </li>
+            </li> -->
             <li class="chat-sidebar-profile">
               <button type="button" class="chat-sidebar-profile-toggle">
+                <!-- user profile image -->
                 <img
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlfGVufDB8fDB8fHww&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=60"
+                  src="<%= currUser.profile_image.url %>"
                   alt=""
                 />
               </button>
               <ul class="chat-sidebar-profile-dropdown">
+                <!-- redirect to user profile page -->
                 <li>
-                  <a href="#"><i class="ri-user-line"></i> Profile</a>
+                  <a href="/users/<%= currUser._id %>/profile"><i class="ri-user-line"></i> Profile</a>
                 </li>
+                <!-- logout current user -->
                 <li>
-                  <a href="#"><i class="ri-logout-box-line"></i> Logout</a>
+                  <a href="/users/logout"><i class="ri-logout-box-line"></i> Logout</a>
                 </li>
               </ul>
             </li>
@@ -146,6 +155,44 @@
           >
             <i class="ri-chat-3-line"></i>
             <p>Select chat and view conversation!</p>
+            
+            <!-- User Search Button trigger modal -->
+            <button type="button" id="start-chat-btn" class="btn " data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Start chat
+            </button>
+
+            <!-- user search Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h3 class="modal-title fs-5" id="exampleModalLabel">Search User</h3>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                    <div class="modal-body">
+                      <form action="" class="content-sidebar-form"></form>
+                        <input
+                          type="search"
+                          class="content-sidebar-input"
+                          placeholder="Enter username"
+                          name="search-user"
+                          id="search-user-conversation-default"
+                        />
+                        <button type="submit" class="content-sidebar-submit" id="search-user-btn-conversation-default">
+                          <i class="ri-search-line"></i>
+                        </button>
+                      </form>
+                        <div id="user-list" class="user-list">
+                            
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Start chat</button>
+                    </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="conversation border" id="conversation-1" hidden>
@@ -165,13 +212,13 @@
                   <div class="conversation-user-status" id="conversation-top-status"></div>
                 </div>
               </div>
-              <div class="conversation-buttons">
+              <!-- <div class="conversation-buttons">
                 <button type="button"><i class="ri-phone-fill"></i></button>
                 <button type="button"><i class="ri-vidicon-line"></i></button>
                 <button type="button">
                   <i class="ri-information-line"></i>
                 </button>
-              </div>
+              </div> -->
             </div>
 
             <!-- chat body -->

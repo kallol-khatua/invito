@@ -30,6 +30,22 @@ router.post("/saveChat",isLoggedIn, async(req, res, next) => {
     }
 })
 
+router.post("/searchUser", async (req, res, next) => {
+    try{
+        console.log(req.body.username);
+        let user = await User.findOne({username: req.body.username});
+        console.log(user);
+        if(!user){
+            return res.status(200).send({success: false, message: error.message});
+        }
+        console.log(user);
+        res.status(200).send({success: true, user: user});
+    }catch(error) {
+        console.log(error)
+        res.status(200).send({success: false, message: error.message});
+    }
+})
+
 // render group page with user created groups 
 router.get("/groups", isLoggedIn, async(req, res, next) => {
     let groups = await Group.find({creator: req.user._id});
