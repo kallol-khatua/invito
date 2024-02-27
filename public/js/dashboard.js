@@ -50,9 +50,6 @@ btn.addEventListener("click", () => {
                 const response = JSON.parse(xhr.responseText);
                 if (response.success) {
                     let typing = document.getElementById("typing");
-                    if (typing) {
-                        typing.remove();
-                    }
                     let chat = response.data.message;
                     html = `<li class="conversation-item me">
                                 <div class="conversation-item-wrapper">
@@ -65,6 +62,9 @@ btn.addEventListener("click", () => {
                             </li>`;
                     let chatContainer = document.getElementById("conversation-main-container");
                     chatContainer.insertAdjacentHTML("beforeend", html);
+                    if (typing) {
+                        typing.remove();
+                    }
                     chatContainer.scrollTop = chatContainer.scrollHeight;
                     // send current chat on the receiver side
                     socket.emit("newChat", response.data);
@@ -196,7 +196,6 @@ function showDashboard(userId, username, profile_image) {
         chatSidebar.setAttribute("hidden", false);
     }
 
-
     receiver_id = document.getElementById(userId).getAttribute("id");
     // console.log(receiver_id);
 
@@ -263,7 +262,6 @@ socket.on("getOfflineUser", (data) => {
 
         status.classList.remove("online");
         status.classList.add("offline");
-
     }
 });
 
@@ -271,19 +269,20 @@ socket.on("getOfflineUser", (data) => {
 socket.on("loadNewChat", (data) => {
     if (sender_id == data.receiver_id && receiver_id == data.sender_id) {
         let typing = document.getElementById("typing");
+        let html = `<li class="conversation-item">
+                        <div class="conversation-item-wrapper">
+                            <div class="conversation-item-box">
+                                <div class="conversation-item-text">
+                                    <p>${data.message}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>`;
+        let chatContainer = document.getElementById("conversation-main-container");
+        chatContainer.insertAdjacentHTML("beforeend", html);
         if (typing) {
             typing.remove();
         }
-        let html = `<li class="conversation-item">
-            <div class="conversation-item-wrapper">
-                        <div class="conversation-item-box">
-                            <div class="conversation-item-text">
-                               <p>${data.message}</p>
-                            </div>
-                        </div>
-                    </div></li>`;
-        let chatContainer = document.getElementById("conversation-main-container");
-        chatContainer.insertAdjacentHTML("beforeend", html);
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
     // in the else case means when user not open the sender chat dashboard then send notification
@@ -311,13 +310,14 @@ socket.on("loadChats", (data) => {
                     </div></li>`;
         } else {
             html = `<li class="conversation-item">
-            <div class="conversation-item-wrapper">
-                        <div class="conversation-item-box">
-                            <div class="conversation-item-text">
-                               <p>${chat.message}</p>
+                        <div class="conversation-item-wrapper">
+                            <div class="conversation-item-box">
+                                <div class="conversation-item-text">
+                                   <p>${chat.message}</p>
+                                </div>
                             </div>
                         </div>
-                    </div></li>`;
+                    </li>`;
         }
 
         chatContainer.insertAdjacentHTML("beforeend", html);
@@ -336,7 +336,7 @@ inputField.addEventListener("keyup", () => {
         let currentDate = new Date();
         let timeDifference = currentDate - lastTyping;
         let secondsDifference = Math.floor(timeDifference / 1000);
-        if(secondsDifference >= 4){
+        if (secondsDifference >= 4) {
             socket.emit("stop-typing", { receiver_id, sender_id });
         }
     }, 4200);
@@ -376,6 +376,6 @@ socket.on("stop-typing-receiver", (data) => {
         let typing = document.getElementById("typing");
         if (typing) {
             typing.remove();
-        } 
+        }
     }
 })
