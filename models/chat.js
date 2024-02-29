@@ -12,6 +12,11 @@ const chatSchema = new Schema({
     },
     message: {
         type: String
+    },
+    isSeen: {
+        type: Boolean,
+        default: false,
+        required: true
     }
 },{timestamps: true});
 

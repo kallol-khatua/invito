@@ -56,13 +56,14 @@
                 height="40px"
               />
             </a>
+            <% if(currUser) { %>
+              <a href="/users/<%= currUser._id %>/profile">
+                <i class="fa fa-solid fa-user fa-xl"></i>
+              </a>
+              <% } %>
           </div>
           <!-- current user profile -->
-          <% if(currUser) { %>
-          <a href="/users/<%= currUser._id %>/profile">
-            <i class="fa fa-solid fa-user fa-xl"></i>
-          </a>
-          <% } %>
+       
         </div>
       </nav>
     </header>

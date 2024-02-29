@@ -127,6 +127,30 @@ usp.on('connection', async (socket) => {
         usp.to(receiver.socket_id).emit("stop-typing-receiver", data)
     })
 
+    socket.on("read-current-message", async (data) => {
+        let chat = await Chat.findById(data).populate("sender_id");
+        chat.isSeen = true;
+        await chat.save();
+        usp.to(chat.sender_id.socket_id).emit("read-current-send-message", chat._id);
+    })
+
+    socket.on("read-old-message", async (data) => {
+        let chat = await Chat.findById(data).populate("sender_id");
+        let chats = (await Chat.find({ receiver_id: chat.receiver_id, sender_id: chat.sender_id })).reverse();
+        for (oneChat of chats) {
+            if (!oneChat.isSeen) {
+                oneChat.isSeen = true;
+                await oneChat.save();
+                usp.to(chat.sender_id.socket_id).emit("read-current-send-message", oneChat._id);
+            } else {
+                break;
+            }
+        }
+        chat.isSeen = true;
+        await chat.save();
+        usp.to(chat.sender_id.socket_id).emit("read-current-send-message", chat._id);
+    })
+
     // implementing old chat
     socket.on("getChats", async (data) => {
         let chats = await Chat.find({

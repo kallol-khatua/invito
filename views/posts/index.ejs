@@ -1,159 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-
+  <head>
     <title>Invito-connecting peoples</title>
-    <script src="https://kit.fontawesome.com/8f7f537382.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="icon" href="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png"  type="image/x-icon">
+    <script
+      src="https://kit.fontawesome.com/8f7f537382.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/navbar.css" />
+    <link
+      rel="icon"
+      href="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png"
+      type="image/x-icon"
+    />
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"
       integrity="sha512-tE1z+95+lMCGwy+9PnKgUSIeHhvioC9lMlI7rLWU0Ps3XTdjRygLcy4mLuL0JAoK4TLdQEyP0yOl/9dMOqpH/Q=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <!-- Our Header section Starts from here -->
     <header>
-        <nav class="navbar">
-            <div class="container">
-                <div class="logo">
-                  <a href="/">
-                    <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706956064/invito/invito_logo_xep70u.jpg" alt="img1" height="40px">
-                </a>
-                <a href="/posts/new" class="newpost">
-                    <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/post_fswon1.png" alt="New Post" height="40px">
-                </a>
-                <!-- notification -->
-                <a href="/users/notification" class="notification">
-                    <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/notification-bell_rfwfjs.png" alt="Notifications" height="40px">
-                </a>
-                </div>
-                <!-- current user profile -->
-                <a href="/users/<%= currUser._id %>/profile">
-                    <i class=" fa fa-solid fa-user fa-xl"></i>
-                </a>
-              </div>
-        </nav>
+      <nav class="navbar">
+        <div class="container">
+          <div class="logo" >
+            <a href="/" class="icon">
+              <img
+                src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706956064/invito/invito_logo_xep70u.jpg"
+                alt="img1"
+                
+              />
+            </a>
+            <a href="/posts/new" class="newpost icon">
+              <img
+                src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/post_fswon1.png"
+                alt="New Post"
+                
+              />
+            </a>
+            <!-- notification -->
+            <a href="/users/notification" class="notification icon">
+              <img
+                src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/notification-bell_rfwfjs.png"
+                alt="Notifications"
+                
+              />
+            </a>
+            <a href="/chats/dashboard" class="icon">
+                <i class="fa-brands fa-signal-messenger fa-xl" style="color: #000000;"></i>
+            </a>
+            <a href="/users/<%= currUser._id %>/profile" class="icon">
+                <i class="fa fa-solid fa-user fa-xl"></i>
+            </a>
+          </div>
+          <!-- current user profile -->
+          
+        </div>
+      </nav>
     </header>
 
     <!-- Code for Showing the Status -->
     <main>
-        <div class="container">
-            <div class="col-9">
-                <div class="welcome">
-                    <div class="image">
-                        <!-- current user name -->
-                        <h1>Welcome! <%= currUser.username %></h1>
-                    </div>
-                </div>
-
-                <!-- Code for viewing the Post -->
-                <% for(post of posts) { %>
-                    <div class="card">
-                        <a href="/users/<%= post.creater._id %>/profile">
-                        <div class="top">
-                            <!-- User Details -->
-                            <div class="userDetails">
-                                <div class="profilepic">
-                                    <div class="profile_img">
-                                        <div class="image">
-                                            <!-- user profile pic -->
-                                            <img src="<%= post.creater.profile_image.url %>" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                                <h3><%= post.creater.username %></h3>
-                            </div>
-                        </div>
-                        </a>
-                        <div class="imgBx">
-                            <img src="<%= post.image.url %>"
-                                alt="post-1" class="cover">
-                        </div>
-                        <div class="bottom">
-                            <a href="#">
-                                <p class="message">
-                                    <b><%= post.content %></b>
-                                </p>
-                            </a>
-                            <div class="actionBtns">
-                                <div class="left"> 
-                                    <% if(String(post.creater._id) == String(currUser._id)) { %>  
-                                        
-                                            <a href="/posts/<%= post._id %>"><button  class="button-50" id="<%= post._id %>" role="button"  >See post detail</button></a>
-                                        
-                                    <% } else { //  %>
-                                        <% // if user already interested then button should be disabled and button text is Done%>
-                                        <% if(post.interested_user.includes(String(currUser._id))) { %>   
-                                            <button class="button-50" id="<%= post._id %>" role="button"  disabled>Done</button>
-                                        <% } else { //  %>
-                                            <button class="button-50" id="<%= post._id %>" role="button"  onclick="buttonClicked('<%= post._id %>')">Interest...?</button>
-                                        <% } %>
-                                    <% } %>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <% } %>
+      <div class="container">
+        <div class="col-9">
+          <div class="welcome">
+            <div class="image">
+              <!-- current user name -->
+              <h1>Welcome! <%= currUser.username %></h1>
             </div>
+          </div>
+
+          <!-- Code for viewing the Post -->
+          <% for(post of posts) { %>
+          <div class="card">
+            <a href="/users/<%= post.creater._id %>/profile">
+              <div class="top">
+                <!-- User Details -->
+                <div class="userDetails">
+                  <div class="profilepic">
+                    <div class="profile_img">
+                      <div class="image">
+                        <!-- user profile pic -->
+                        <img
+                          src="<%= post.creater.profile_image.url %>"
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <h3><%= post.creater.username %></h3>
+                </div>
+              </div>
+            </a>
+            <div class="imgBx">
+              <img src="<%= post.image.url %>" alt="post-1" class="cover" />
+            </div>
+            <div class="bottom">
+              <a href="#">
+                <p class="message">
+                  <b><%= post.content %></b>
+                </p>
+              </a>
+              <div class="actionBtns">
+                <div class="left">
+                  <% if(String(post.creater._id) == String(currUser._id)) { %>
+
+                  <a href="/posts/<%= post._id %>"
+                    ><button
+                      class="button-50"
+                      id="<%= post._id %>"
+                      role="button"
+                    >
+                      See post detail
+                    </button></a
+                  >
+
+                  <% } else { // %> <% // if user already interested then button
+                  %> 
+                  <% if(post.interested_user.includes(String(currUser._id))) { %>
+                  <button
+                    class="button-50"
+                    id="<%= post._id %>"
+                    role="button"
+                    disabled
+                  >
+                    Done
+                  </button>
+                  <% } else { // %>
+                  <button
+                    class="button-50"
+                    id="<%= post._id %>"
+                    role="button"
+                    onclick="buttonClicked('<%= post._id %>')"
+                  >
+                    Interest...?
+                  </button>
+                  <% } %> <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
         </div>
+      </div>
     </main>
 
     <script>
-        const sender_id = "<%= currUser._id %>";
-        let socket = io("/user-namespace", {
-            auth: {
-                token: sender_id,
-            },
-        });
+      const sender_id = "<%= currUser._id %>";
+      let socket = io("/user-namespace", {
+        auth: {
+          token: sender_id,
+        },
+      });
 
-        function buttonClicked(postId) {
-            let myButton = document.getElementById(postId);
+      function buttonClicked(postId) {
+        let myButton = document.getElementById(postId);
 
-            // Change the button text to 'Done'
-            myButton.innerHTML = 'Done';
+        // Change the button text to 'Done'
+        myButton.innerHTML = "Done";
 
-            // Make the button unclickable
-            myButton.disabled = true;
+        // Make the button unclickable
+        myButton.disabled = true;
 
-            // Optionally, you can remove the onclick attribute to prevent further clicks
-            myButton.removeAttribute('onclick');
+        // Optionally, you can remove the onclick attribute to prevent further clicks
+        myButton.removeAttribute("onclick");
 
+        // send request to the server to show interest
+        // Make an AJAX request to the server
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/posts/interested", true);
+        xhr.setRequestHeader(
+          "Content-Type",
+          "application/x-www-form-urlencoded"
+        );
 
-            // send request to the server to show interest
-            // Make an AJAX request to the server
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '/posts/interested', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        // Set up the data to send to the server
+        const data = `postId=${postId}`;
 
-            // Set up the data to send to the server
-            const data = `postId=${postId}`;
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+              const response = JSON.parse(xhr.responseText);
+              // if (response.success) {
+              //     alert(response.message);
+              // } else {
+              //     alert(response.message);
+              // }
+            } else {
+              alert("Error occurred while making the request");
+            }
+          }
+        };
 
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        const response = JSON.parse(xhr.responseText);
-                        // if (response.success) {
-                        //     alert(response.message);
-                        // } else {
-                        //     alert(response.message);
-                        // }
-                    } else {
-                        alert('Error occurred while making the request');
-                    }
-                }
-            };
-
-            // Send the request with the data
-            xhr.send(data);
-        }
+        // Send the request with the data
+        xhr.send(data);
+      }
     </script>
-</body>
-
+  </body>
 </html>

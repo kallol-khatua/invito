@@ -19,12 +19,17 @@ let socket = io("/user-namespace", {
     },
 });
 
-// save message to database
-let btn = document.getElementById("conversation-form-button")
-btn.addEventListener("click", () => {
+let formInput = document.getElementById("conversation-main-message");
+formInput.addEventListener("keypress", (event) => {
+    if(event.key == "Enter") {
+        submitForm();
+    }
+})
+
+function submitForm() {
     let inputMessage = document.getElementById("conversation-main-message");
     let message = inputMessage.value.trim();
-    console.log(message)
+    // console.log(message)
     if (message == "") {
         inputMessage.value = "";
         return;
@@ -55,13 +60,15 @@ btn.addEventListener("click", () => {
                                 <div class="conversation-item-wrapper">
                                     <div class="conversation-item-box">
                                         <div class="conversation-item-text">
-                                            <p>${chat}</p>
+                                            <p id=${response.data._id}>${chat}</p>
+                                            <p>unseen</p>
                                         </div>
                                     </div>
                                 </div>
                             </li>`;
                     let chatContainer = document.getElementById("conversation-main-container");
                     chatContainer.insertAdjacentHTML("beforeend", html);
+                    // if typing exists then insert before typing
                     if (typing) {
                         typing.remove();
                     }
@@ -79,6 +86,12 @@ btn.addEventListener("click", () => {
     // Send the request with the data
     let jsonData = JSON.stringify(chatData);
     xhr.send(jsonData);
+}
+
+// save message to database
+let btn = document.getElementById("conversation-form-button")
+btn.addEventListener("click", () => {
+    submitForm();
 })
 
 // search user by username and start 
@@ -86,7 +99,7 @@ let searchButton = document.getElementById("search-user-btn-conversation-default
 let searchInputField = document.getElementById("search-user-conversation-default");
 searchButton.addEventListener("click", () => {
     let username = searchInputField.value;
-    console.log(username);
+    // console.log(username);
 
     const xhr = new XMLHttpRequest();
     xhr.open('POST', '/chats/searchUser', true);
@@ -98,7 +111,7 @@ searchButton.addEventListener("click", () => {
             if (xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
                 if (response.success) {
-                    console.log(response);
+                    // console.log(response);
                     let status;
                     if (response.user.is_online == "1") {
                         status = `<sup class="online-status" id="${response.user._id}-status">Online</sup>`
@@ -122,7 +135,7 @@ searchButton.addEventListener("click", () => {
                     let chatContainer = document.getElementById("user-list");
                     chatContainer.insertAdjacentHTML("beforeend", html);
                 } else {
-                    console.log(response);
+                    // console.log(response);
                 }
             } else {
                 alert('Error occurred while making the request');
@@ -265,7 +278,7 @@ socket.on("getOfflineUser", (data) => {
     }
 });
 
-// // load current chat on the receiver side
+// load current chat on the receiver side
 socket.on("loadNewChat", (data) => {
     if (sender_id == data.receiver_id && receiver_id == data.sender_id) {
         let typing = document.getElementById("typing");
@@ -273,7 +286,7 @@ socket.on("loadNewChat", (data) => {
                         <div class="conversation-item-wrapper">
                             <div class="conversation-item-box">
                                 <div class="conversation-item-text">
-                                    <p>${data.message}</p>
+                                    <p id=${data._id}>${data.message}</p>
                                 </div>
                             </div>
                         </div>
@@ -284,6 +297,7 @@ socket.on("loadNewChat", (data) => {
             typing.remove();
         }
         chatContainer.scrollTop = chatContainer.scrollHeight;
+        observerNewChat.observe(document.getElementById(data._id));
     }
     // in the else case means when user not open the sender chat dashboard then send notification
 });
@@ -298,13 +312,19 @@ socket.on("loadChats", (data) => {
     let chats = data;
     for (chat of chats) {
         let html;
-        let addClass;
+        let isSeen;
+        if (chat.isSeen == true) {
+            isSeen = "seen";
+        } else if (chat.isSeen == false) {
+            isSeen = "unseen";
+        }
         if (chat.sender_id == sender_id) {
             html = `<li class="conversation-item me">
             <div class="conversation-item-wrapper">
                         <div class="conversation-item-box">
                             <div class="conversation-item-text">
-                               <p>${chat.message}</p>
+                               <p id=${chat._id}>${chat.message}</p>
+                               <p>${isSeen}</p>
                             </div>
                         </div>
                     </div></li>`;
@@ -313,7 +333,8 @@ socket.on("loadChats", (data) => {
                         <div class="conversation-item-wrapper">
                             <div class="conversation-item-box">
                                 <div class="conversation-item-text">
-                                   <p>${chat.message}</p>
+                                   <p id=${chat._id}>${chat.message}</p>
+                                   <p hidden>${isSeen}</p>
                                 </div>
                             </div>
                         </div>
@@ -322,8 +343,25 @@ socket.on("loadChats", (data) => {
 
         chatContainer.insertAdjacentHTML("beforeend", html);
     }
-
     chatContainer.scrollTop = chatContainer.scrollHeight;
+
+    // check the last element is send by the current user or not 
+    // if not send by current user then check already seen or not
+    // if unseen then
+
+    let text = document.getElementById("conversation-main-container").lastChild;
+    if (text) {
+        if (!text.className.includes("me")) {
+            // console.log(text)
+            let child = text.children[0].children[0].children[0];
+            // console.dir(child.children[1].innerText)
+            // console.dir(child.children[0])
+            if (child.children[1].innerText == "unseen") {
+                observerOldChat.observe(document.getElementById(child.children[0].id));
+            }
+        }
+    }
+
 });
 
 let lastTyping;
@@ -378,4 +416,37 @@ socket.on("stop-typing-receiver", (data) => {
             typing.remove();
         }
     }
+})
+
+// --------------------- seen and unseen feature -------------------------
+const observerNewChat = new window.IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) {
+        // Send a message to the server that the user has viewed the message.
+        socket.emit('read-current-message', entry.target.id);
+        return;
+    }
+}, {
+    root: null,
+    threshold: 0.1,
+})
+
+const observerOldChat = new window.IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) {
+        console.log(entry)
+        // Send a message to the server that the user has viewed the message.
+        socket.emit('read-old-message', entry.target.id);
+        return;
+    }
+}, {
+    root: null,
+    threshold: 0.1,
+})
+
+socket.on("read-current-send-message", (data) => {
+    let chatContainer = document.getElementById("conversation-main-container");
+    let chat = document.getElementById(data);
+    let nextElement = chat.nextElementSibling;
+    nextElement.remove();
+    chat.insertAdjacentHTML("afterend", "<p>seen</p>");
+    chatContainer.scrollTop = chatContainer.scrollHeight;
 })

@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta 0me="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Invito-connecting peoples</title>
     <link
       href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css"
@@ -32,12 +32,14 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <style>
-      .conversation-item-text  p{
-        margin-bottom: 0rem;
-      }
-    </style>
+    
   </head>
+  <style>
+    p{
+      margin: 0px;
+      padding: 0px;
+    }
+  </style>
 
   <body>
     <!-- start: Chat -->
@@ -222,16 +224,15 @@
 
             <!-- chat body -->
             <div class="conversation-main border" id="conversation-main-container">
+
             
             </div>
 
             <!-- chat form -->
             <div class="conversation-form border" >
               
-                <!-- <button type="button" class="conversation-form-button">
-                  <i class="ri-emotion-line"></i>
-                </button> -->
-                <form action="#" id="chat-form"></form>
+              
+                <!-- <form action="#" id="chat-form"></form> -->
                   <input
                   type="text"
                     class="conversation-form-input"
@@ -239,17 +240,14 @@
                     id="conversation-main-message"
                     required
                   >
-                  <!-- <button type="button" class="conversation-form-record">
-                    <i class="ri-mic-line"></i>
-                  </button> -->
-                  <button
+                    <button
                     type="submit"
                     class="conversation-form-button conversation-form-submit"
                     id="conversation-form-button"
                   >
                     <i class="ri-send-plane-2-line"></i>
                   </button>
-                </form>
+                <!-- </form> -->
               
             </div>
           </div>

@@ -10,10 +10,11 @@
   font: inherit;
 }
 .conversation {
-    background-color: var(--slate-100);
+  background-color: var(--slate-100);
     height: 100%;
     padding-left: 256px;
     overflow: hidden;
+    width: 100%;
     
 }
 body {
@@ -264,7 +265,7 @@ body {
   align-items: center;
   text-decoration: none;
   color: var(--slate-700);
-  padding: 6px 16px;
+  padding: 6px 6px;
 }
 .content-messages-list > * > a:hover {
   background-color: var(--slate-50);
@@ -347,15 +348,15 @@ body {
 
 .conversation-top {
   padding: 8px 16px;
-  
+  height: 10vh;
   background-color: var(--white);
   display: flex;
   align-items: center;
   
 }
-.conversation-main{
+#conversation-main-container{
   
-min-height: 75vh;
+  height: 80vh;
   overflow-y: scroll;
   
 }
@@ -452,6 +453,7 @@ min-height: 75vh;
   display: flex;
   align-items: flex-end;
   margin-bottom: 16px;
+  margin-left: 5px;
 }
 .conversation-item.me {
   flex-direction: row;
@@ -630,10 +632,11 @@ min-height: 75vh;
 .conversation-form {
     padding: 8px ;
     background-color: var(--white);
-
+  
+  height: 10vh;
    display: flex;
    justify-content: space-between;
-   min-height: 10vh;
+ 
     border: 2px solid red;
 }
 
@@ -837,9 +840,7 @@ min-height: 75vh;
   .chat-content {
     padding-left: unset;
   }
-  #conversation-1 {
-    height: 100vh;
-  }
+ 
   .content-sidebar {
     left: unset;
     z-index: 10;
