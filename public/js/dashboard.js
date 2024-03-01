@@ -21,7 +21,7 @@ let socket = io("/user-namespace", {
 
 let formInput = document.getElementById("conversation-main-message");
 formInput.addEventListener("keypress", (event) => {
-    if(event.key == "Enter") {
+    if (event.key == "Enter") {
         submitForm();
     }
 })
@@ -287,6 +287,7 @@ socket.on("loadNewChat", (data) => {
                             <div class="conversation-item-box">
                                 <div class="conversation-item-text">
                                     <p id=${data._id}>${data.message}</p>
+                                    <p hidden>seen</p>
                                 </div>
                             </div>
                         </div>
@@ -361,7 +362,6 @@ socket.on("loadChats", (data) => {
             }
         }
     }
-
 });
 
 let lastTyping;
@@ -377,9 +377,9 @@ inputField.addEventListener("keyup", () => {
         if (secondsDifference >= 4) {
             socket.emit("stop-typing", { receiver_id, sender_id });
         }
-    }, 4200);
+    }, 4500);
     socket.emit("typing", { receiver_id, sender_id });
-})
+});
 
 
 // catch typing 
@@ -405,7 +405,7 @@ socket.on("typing-receiver", (data) => {
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
     }
-})
+});
 
 // catch typing 
 socket.on("stop-typing-receiver", (data) => {
@@ -416,9 +416,9 @@ socket.on("stop-typing-receiver", (data) => {
             typing.remove();
         }
     }
-})
+});
 
-// --------------------- seen and unseen feature -------------------------
+// ------------------------- seen and unseen feature -------------------------
 const observerNewChat = new window.IntersectionObserver(([entry]) => {
     if (entry.isIntersecting) {
         // Send a message to the server that the user has viewed the message.
@@ -428,7 +428,7 @@ const observerNewChat = new window.IntersectionObserver(([entry]) => {
 }, {
     root: null,
     threshold: 0.1,
-})
+});
 
 const observerOldChat = new window.IntersectionObserver(([entry]) => {
     if (entry.isIntersecting) {
@@ -440,7 +440,7 @@ const observerOldChat = new window.IntersectionObserver(([entry]) => {
 }, {
     root: null,
     threshold: 0.1,
-})
+});
 
 socket.on("read-current-send-message", (data) => {
     let chatContainer = document.getElementById("conversation-main-container");
@@ -449,4 +449,13 @@ socket.on("read-current-send-message", (data) => {
     nextElement.remove();
     chat.insertAdjacentHTML("afterend", "<p>seen</p>");
     chatContainer.scrollTop = chatContainer.scrollHeight;
-})
+});
+
+socket.on("seen-old-chat", (data) => {
+    let chatContainer = document.getElementById("conversation-main-container");
+    let chat = document.getElementById(data);
+    let nextElement = chat.nextElementSibling;
+    nextElement.remove();
+    chat.insertAdjacentHTML("afterend", "<p hidden>seen</p>");
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+});

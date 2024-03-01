@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta 0me="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Invito-connecting peoples</title>
     <link
       href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css"
@@ -110,7 +110,8 @@
               <ul class="content-messages-list">
                 <% for(user of users) { %>
                 <li id="<%= user._id %>" onclick="showDashboard('<%= user._id %>', '<%= user.username %>', '<%= user.profile_image.url %>')">
-                  <a>
+                  <!-- , user.username, user.is_online, user.profile_image.url -->
+                  <a >
                     <img
                       class="content-message-image"
                       src="<%= user.profile_image.url %>"
@@ -140,8 +141,8 @@
                       </span>
                     </span>
 
+                    <% } %>
                   </a>
-                  <% } %>
                 </li>
               </ul>
             </div>
