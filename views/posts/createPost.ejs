@@ -244,10 +244,11 @@
     }
 
     .container-post {
-
+      margin: 15px;
       padding: 6px;
-
-      width: 60%;
+      border-radius: 10px;
+      width: 45%;
+      border: 4px solid ;
       box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
         rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     }
@@ -263,7 +264,7 @@
       justify-content: center;
     }
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 650px) {
 
       .container-post {
         width: 100%;
@@ -273,19 +274,13 @@
         padding: 15px 10px !important;
       }
     }
-
-    textarea {
+    textarea{
       min-height: 12vh;
     }
-    .cont{
-      display: flex;
-      justify-content: center;
-    }
   </style>
-
 </head>
 
-<body></body>
+<body>
   <nav class="navbar">
     <div class="container">
       <div class="logo">
@@ -313,7 +308,7 @@
   <section class="contain">
     <div class="container-post">
       <form action="/posts" method="post" enctype="multipart/form-data" onsubmit="validateForm()">
-        <div >
+        <div class="form-group">
 
           <textarea type="text" required placeholder="Add info about post..." name="content" id="content"
             class="form-controll" style="
@@ -323,30 +318,27 @@
                 border: 2px solid;
               "></textarea>
         </div>
-        <div class="cont">
-          <div class="form-group file-area">
-            <!-- Replace the file input with a button -->
-            <!-- HTML !-->
-            
+
+        <div class="form-group file-area">
+          <!-- Replace the file input with a button -->
+          <!-- HTML !-->
+          <button class="button-74" role="button">Add Image...</button>
 
 
-            <input type="file" name="image" id="image" required />
-            <div class="file-dummy">
-              <div class="avatar-preview">
-                <div id="imagePreview" style="
+          <input type="file" name="image" id="image" required />
+          <div class="file-dummy">
+            <div class="avatar-preview">
+              <div id="imagePreview" style="
                     background-image: url(https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671142.jpg?w=740&t=st=1706519723~exp=1706520323~hmac=24d138e5d0dbb62517819149691d75d6832aa630914640b0d3a5e42fd5e8ebde);
                   " aria-placeholder="adjgkd"></div>
-              </div>
             </div>
-            <button class="button-74" role="button">Add Image...</button>
-          </div>
-
-          <div class="form-group">
-            <button type="submit" class="button-74" onclick="validateForm()">Post It</button>
-            <div class="error-message"></div>
           </div>
         </div>
 
+        <div class="form-group">
+          <button type="submit" class="button-74"  onclick="validateForm()">Post It</button>
+          <div class="error-message"></div>
+        </div>
       </form>
 
       <link href="https://fonts.googleapis.com/css?family=Lato:100,200,300,400,500,600,700" rel="stylesheet"
