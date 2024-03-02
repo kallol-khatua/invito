@@ -1,32 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Invito-connecting peoples</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css"
-      rel="stylesheet"
-    />
-    
-    <!-- <link rel="stylesheet" href="/css/chat.css" /> -->
-    <link rel="stylesheet" href="/css/tailwindcss-colors.css" />
-    <link rel="stylesheet" href="/css/style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="icon"
-      href="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png"
-      type="image/x-icon"
-    />
-
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -82,7 +56,6 @@
                 ><i class="ri-settings-line"></i
               ></a>
             </li> -->
-
           <li class="chat-sidebar-profile">
             <button type="button" class="chat-sidebar-profile-toggle">
               <!-- user profile image -->
@@ -123,78 +96,21 @@
                     <span class="content-message-info" class="mb-2">
                       <div id="<%= user._id %>"></div>
                       <span class="content-message-name">
-
-            <li class="chat-sidebar-profile">
-              <button type="button" class="chat-sidebar-profile-toggle">
-                <!-- user profile image -->
-                <img
-                  src="<%= currUser.profile_image.url %>"
-                  alt=""
-                />
-              </button>
-              <ul class="chat-sidebar-profile-dropdown">
-                <!-- redirect to user profile page -->
-                <li>
-                  <a href="/users/<%= currUser._id %>/profile"><i class="ri-user-line"></i> Profile</a>
-                </li>
-                <!-- logout current user -->
-                <li>
-                  <a href="/users/logout"><i class="ri-logout-box-line"></i> Logout</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </aside>
-        <!-- end: Sidebar -->
-        <!-- start: Content -->
-        <div class="chat-content">
-          <!-- start: Content side -->
-          <div class="content-sidebar" id="content-sidebar" >
-            <div class="content-sidebar-title">Chats</div>
-            <form action="" class="content-sidebar-form">
-              <input
-                type="search"
-                class="content-sidebar-input"
-                placeholder="Search..."
-              />
-              <button type="submit" class="content-sidebar-submit">
-                <i class="ri-search-line"></i>
-              </button>
-            </form>
-            <div class="content-messages">
-              <ul class="content-messages-list">
-                <% for(user of users) { %>
-                <li id="<%= user._id %>" onclick="showDashboard('<%= user._id %>', '<%= user.username %>', '<%= user.profile_image.url %>')">
-                  <!-- , user.username, user.is_online, user.profile_image.url -->
-                  <a >
-                    <img
-                      class="content-message-image"
-                      src="<%= user.profile_image.url %>"
-                      alt=""
-                      id=""
-                    />
-                    <span
-                      class="content-message-info"
-                      
-                      class="mb-2"
-                    > <div id="<%= user._id %>"></div>
-                      <span class="content-message-name" >
-
                         <%= user.username %>
                       </span>
                     </span>
                     <span class="content-message-more">
                       <span>
                         <% if(user.is_online=="1" ) { %>
-                          <sup class="online-status" id="<%= user._id %>-status">Online</sup>
+                          <div class="online-status" id="<%= user._id %>-status"></div>
                           <% } else {%>
-                            <sup class="offline-status" id="<%= user._id %>-status">Offline</sup>
+                            <div class="offline-status" id="<%= user._id %>-status"></div>
                             <% } %>
                       </span>
                     </span>
 
-                    <% } %>
                   </a>
+                  <% } %>
                 </li>
             </ul>
           </div>
