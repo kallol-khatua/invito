@@ -141,14 +141,16 @@ usp.on('connection', async (socket) => {
             if (!oneChat.isSeen) {
                 oneChat.isSeen = true;
                 await oneChat.save();
+                console.log(oneChat);
                 usp.to(chat.sender_id.socket_id).emit("read-current-send-message", oneChat._id);
+                socket.emit("seen-old-chat", oneChat._id)
             } else {
                 break;
             }
         }
-        chat.isSeen = true;
-        await chat.save();
-        usp.to(chat.sender_id.socket_id).emit("read-current-send-message", chat._id);
+        // chat.isSeen = true;
+        // await chat.save();
+        // usp.to(chat.sender_id.socket_id).emit("read-current-send-message", chat._id);
     })
 
     // implementing old chat
