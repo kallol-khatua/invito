@@ -118,7 +118,7 @@ main .container {
     margin-top: 7vh;
     width: 75%;
     display: flex;
-    align-items: flex-start;
+    
     justify-content: space-between;
     /* background: #ddd; */
 }
@@ -311,27 +311,15 @@ a {
         margin-bottom: 30px;
         margin-top: 0;
     }
-    .imgBx{
-        height: 1000px;
-    }
+    
     body{
         font-size: 20px;
     }
     .message, .col-9 .card .top .userDetails h3, #post1Button{
         font-size: 30px;
     }
-    .logo{
-        height: 100px;
-    }
-    .navbar .logo a img{
-        height: 80px;
-    }
-    .fa-solid {
-        font-size: 3em; /* You can adjust the size as needed */
-    }
-    .navbar{
-        height: 8vh;
-    }
+    
+    
 } 
 
 @media screen and (max-width: 450px) {
