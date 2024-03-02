@@ -2,31 +2,6 @@
 <html lang="en">
 
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Invito-connecting peoples</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css"
-      rel="stylesheet"
-    />
-    
-    <!-- <link rel="stylesheet" href="/css/chat.css" /> -->
-    <link rel="stylesheet" href="/css/tailwindcss-colors.css" />
-    <link rel="stylesheet" href="/css/style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="icon"
-      href="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png"
-      type="image/x-icon"
-    />
-
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -82,7 +57,6 @@
                 ><i class="ri-settings-line"></i
               ></a>
             </li> -->
-
           <li class="chat-sidebar-profile">
             <button type="button" class="chat-sidebar-profile-toggle">
               <!-- user profile image -->
@@ -123,6 +97,7 @@
                     <span class="content-message-info" class="mb-2">
                       <div id="<%= user._id %>"></div>
                       <span class="content-message-name">
+
 
             <li class="chat-sidebar-profile">
               <button type="button" class="chat-sidebar-profile-toggle">
@@ -180,21 +155,27 @@
                     > <div id="<%= user._id %>"></div>
                       <span class="content-message-name" >
 
+
                         <%= user.username %>
                       </span>
                     </span>
                     <span class="content-message-more">
                       <span>
                         <% if(user.is_online=="1" ) { %>
-                          <sup class="online-status" id="<%= user._id %>-status">Online</sup>
+
+                          <div class="online-status" id="<%= user._id %>-status">
+                          <p hidden>Online</p></div>
                           <% } else {%>
-                            <sup class="offline-status" id="<%= user._id %>-status">Offline</sup>
+                            <div class="offline-status" id="<%= user._id %>-status">
+                              <p hidden>Offline</p>
+                            </div>
+
                             <% } %>
                       </span>
                     </span>
 
-                    <% } %>
                   </a>
+                  <% } %>
                 </li>
             </ul>
           </div>
@@ -303,5 +284,6 @@
   <script src="/js/chat.js"></script>
   <script src="/js/dashboard.js"></script>
 </body>
+
 
 </html>

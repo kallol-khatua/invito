@@ -9,6 +9,18 @@
   box-sizing: border-box;
   font: inherit;
 }
+.online-status{
+  width: 10px;
+  height: 10px;
+  background-color: green;
+  border-radius: 50%; 
+}
+.offline-status{
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%; 
+}
 .conversation {
     background-image: url("https://w0.peakpx.com/wallpaper/816/695/HD-wallpaper-whatsapp-cartoons-background-blue-cartoons-green-pink-purple-walpaper-whatsapp-thumbnail.jpg");
     
@@ -416,7 +428,7 @@ body {
   margin-right: 4px;
 }
 .conversation-user-status.online::before {
-  background-color: var(--emerald-500);
+  background-color: green;
 }
 .conversation-user-status.offline::before {
   background-color: red;
@@ -776,10 +788,12 @@ body {
   
 }
 .start{
-background: #ffffff;
+background: #050505b0;
 border-radius: 17px;
 padding: 5px;
-border: 4px solid black;
+border: 4px solid rgb(58, 63, 84);
+color: white;
+
 }
 .conversation-default i {
   font-size: 32px;
