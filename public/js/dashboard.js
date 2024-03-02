@@ -216,16 +216,17 @@ function showDashboard(userId, username, profile_image) {
     topUsername.innerText = username
     document.getElementById("conversation-top-image").setAttribute("src", profile_image);
 
-    let status = document.getElementById("conversation-top-status");
+    // set 
+    let statusTop = document.getElementById("conversation-top-status");
     let statusUser = document.getElementById(userId + "-status");
-    status.innerText = statusUser.innerText;
+    statusTop.innerText = statusUser.firstElementChild.innerText;
 
-    if (status.innerText == "Offline") {
-        status.classList.remove("online");
-        status.classList.add("offline")
-    } else if (status.innerText == "Online") {
-        status.classList.remove("offline");
-        status.classList.add("online");
+    if (statusTop.innerText == "Offline") {
+        statusTop.classList.remove("online");
+        statusTop.classList.add("offline")
+    } else if (statusTop.innerText == "Online") {
+        statusTop.classList.remove("offline");
+        statusTop.classList.add("online");
     }
 
     socket.emit("getChats", { receiver_id, sender_id });
@@ -248,16 +249,17 @@ function conversationBack() {
 // when get a user online 
 socket.on("getOnlineUser", (data) => {
     let status = document.getElementById(data + "-status");
-    status.innerText = "Online";
     status.classList.remove("offline-status");
     status.classList.add("online-status");
 
-    if (data == receiver_id) {
-        let status = document.getElementById("conversation-top-status");
-        status.innerText = "Online";
+    status.firstElementChild.innerText = "Online";
 
-        status.classList.remove("offline");
-        status.classList.add("online");
+    if (data == receiver_id) {
+        let statusTop = document.getElementById("conversation-top-status");
+        statusTop.innerText = "Online";
+
+        statusTop.classList.remove("offline");
+        statusTop.classList.add("online");
 
     }
 });
@@ -265,16 +267,17 @@ socket.on("getOnlineUser", (data) => {
 // when get a user offline 
 socket.on("getOfflineUser", (data) => {
     let status = document.getElementById(data + "-status");
-    // console.log(status)
-    status.innerText = "Offline";
     status.classList.remove("online-status");
     status.classList.add("offline-status");
-    if (data == receiver_id) {
-        let status = document.getElementById("conversation-top-status");
-        status.innerText = "Offline";
 
-        status.classList.remove("online");
-        status.classList.add("offline");
+    status.firstElementChild.innerText = "Offline";
+
+    if (data == receiver_id) {
+        let statusTop = document.getElementById("conversation-top-status");
+        statusTop.innerText = "Offline";
+
+        statusTop.classList.remove("online");
+        statusTop.classList.add("offline");
     }
 });
 

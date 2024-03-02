@@ -102,9 +102,12 @@
                     <span class="content-message-more">
                       <span>
                         <% if(user.is_online=="1" ) { %>
-                          <div class="online-status" id="<%= user._id %>-status"></div>
+                          <div class="online-status" id="<%= user._id %>-status">
+                          <p hidden>Online</p></div>
                           <% } else {%>
-                            <div class="offline-status" id="<%= user._id %>-status"></div>
+                            <div class="offline-status" id="<%= user._id %>-status">
+                              <p hidden>Offline</p>
+                            </div>
                             <% } %>
                       </span>
                     </span>
