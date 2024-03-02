@@ -1,203 +1,408 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Invito-connecting peoples</title>
-    <script
-      src="https://kit.fontawesome.com/8f7f537382.js"
-      crossorigin="anonymous"
-    ></script>
-    <link rel="stylesheet" href="/css/main.css" />
-    <link rel="stylesheet" href="/css/navbar.css" />
-    <link
-      rel="icon"
-      href="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png"
-      type="image/x-icon"
-    />
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"
-      integrity="sha512-tE1z+95+lMCGwy+9PnKgUSIeHhvioC9lMlI7rLWU0Ps3XTdjRygLcy4mLuL0JAoK4TLdQEyP0yOl/9dMOqpH/Q=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-  </head>
 
-  <body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Invito-connecting peoples</title>
+  <script src="https://kit.fontawesome.com/8f7f537382.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/css/main.css" />
+
+
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" href="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png"
+    type="image/x-icon" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"
+    integrity="sha512-tE1z+95+lMCGwy+9PnKgUSIeHhvioC9lMlI7rLWU0Ps3XTdjRygLcy4mLuL0JAoK4TLdQEyP0yOl/9dMOqpH/Q=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet" />
+</head>
+
+<style>
+  .chat-section {
+    background: #000;
+  }
+
+  .maincontainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #000;
+  }
+
+  .main {
+    width: 70%;
+    margin: 9px;
+
+    position: absolute;
+    right: 0px;
+  }
+
+
+
+  .icon img,
+  .icon i {
+    margin-right: 10px;
+  }
+
+  .chat-sidebar {
+
+    position: fixed;
+
+    
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+    /* Adjust the width as needed */
+    background-color: #fff;
+    /* Add background color as needed */
+  }
+
+  .chat-sidebar .logo {
+
+    margin-bottom: 20px;
+  }
+
+  .chat-sidebar .icon {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .chat-sidebar .icon img,
+  .chat-sidebar .icon i {
+    width: 30px;
+    /* Adjust the icon size as needed */
+    height: 30px;
+    /* Adjust the icon size as needed */
+    color: #000;
+    /* Set icon color as needed */
+  }
+
+  .chat-sidebar-profile-dropdown {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: none;
+  }
+
+  .chat-sidebar-profile-dropdown li {
+    margin-bottom: 10px;
+  }
+
+  .chat-sidebar-profile-dropdown a {
+    color: #333;
+    text-decoration: none;
+  }
+
+  .chat-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    /* Adjust width as needed */
+    
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 999;
+    /* Ensure it's above main content */
+  }
+
+  .sidebar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center items horizontally */
+    justify-content: space-between;
+    height: 100%;
+    /* Fill available height */
+  }
+
+  .sidebar-container .icon {
+    margin: 10px;
+  }
+  .card{
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+  }
+
+
+  .search-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+     width: 97%;
+     margin: 4px;
+    }
+
+    .search-box {
+      width: inherit;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      outline: none;
+     
+      font-size: 16px;
+    }
+
+    .search-button {
+   
+    
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+   button{
+    background-color: whitesmoke;
+    color: black;
+   }
+   @media screen and (max-width: 767px) {
+    .chat-sidebar {
+
+      position: fixed;
+      bottom: 0%;
+      top: 95%;
+      width: 100%;
+     
+      display: flex;
+      
+      justify-content: space-around;
+
+
+      /* Adjust the width as needed */
+      background-color: #fff;
+      /* Add background color as needed */
+    }
+
+    .sidebar-container {
+      flex-direction: row;
+      /* Adjust as needed */
+
+      align-items: center;
+      justify-content: space-around;
+
+    }
+
+    .chat-sidebar .icon i {
+      height: 0px;
+    }
+
+    .sidebar-container .icon {
+      margin: 10px;
+      /* Allow icons to expand to fill available space */
+    }
+
+    .main {
+      width: 100%;
+      margin: 9px;
+      /* position: absolute; */
+      /* right: 0px; */
+    }
+    *::-webkit-scrollbar, *::-webkit-scrollbar-thumb {
+    width: 0px;
+    border-radius: 13px;
+    background-clip: padding-box;
+    border: 10px solid transparent;
+}
+
+  }
+  
+</style>
+
+<body>
+
     <!-- Our Header section Starts from here -->
-    <header>
-      <nav class="navbar">
-        <div class="container">
-          <div class="logo" >
-            <a href="/" class="icon">
-              <img
-                src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706956064/invito/invito_logo_xep70u.jpg"
-                alt="img1"
-                
-              />
-            </a>
-            <a href="/posts/new" class="newpost icon">
-              <img
-                src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/post_fswon1.png"
-                alt="New Post"
-                
-              />
-            </a>
-            <!-- notification -->
-            <a href="/users/notification" class="notification icon">
-              <img
-                src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/notification-bell_rfwfjs.png"
-                alt="Notifications"
-                
-              />
-            </a>
-            <a href="/chats/dashboard" class="icon">
-                <i class="fa-brands fa-signal-messenger fa-xl" style="color: #000000;"></i>
-            </a>
-            <a href="/users/<%= currUser._id %>/profile" class="icon">
-                <i class="fa fa-solid fa-user fa-xl"></i>
-            </a>
-          </div>
-          <!-- current user profile -->
-          
-        </div>
-      </nav>
-    </header>
-
-    <!-- Code for Showing the Status -->
-    <main>
+    <div class="main">
       <div class="container">
         <div class="col-9">
-          <div class="welcome">
-            <div class="image">
-              <!-- current user name -->
-              <h1>Welcome! <%= currUser.username %></h1>
+          <div class="search-container">
+            <div class="search-box">
+              <input type="text" class="search-input" placeholder="Search">
+              <button class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
+          </div>
+          <div class="welcome">
+           
           </div>
 
           <!-- Code for viewing the Post -->
           <% for(post of posts) { %>
-          <div class="card">
-            <a href="/users/<%= post.creater._id %>/profile">
-              <div class="top">
-                <!-- User Details -->
-                <div class="userDetails">
-                  <div class="profilepic">
-                    <div class="profile_img">
-                      <div class="image">
-                        <!-- user profile pic -->
-                        <img
-                          src="<%= post.creater.profile_image.url %>"
-                          alt=""
-                        />
+            <div class="card">
+              <a href="/users/<%= post.creater._id %>/profile">
+                <div class="top">
+                  <!-- User Details -->
+                  <div class="userDetails">
+                    <div class="profilepic">
+                      <div class="profile_img">
+                        <div class="image">
+                          <!-- user profile pic -->
+                          <img src="<%= post.creater.profile_image.url %>" alt="" />
+                        </div>
                       </div>
                     </div>
+                    <h3>
+                      <%= post.creater.username %>
+                    </h3>
                   </div>
-                  <h3><%= post.creater.username %></h3>
                 </div>
-              </div>
-            </a>
-            <div class="imgBx">
-              <img src="<%= post.image.url %>" alt="post-1" class="cover" />
-            </div>
-            <div class="bottom">
-              <a href="#">
-                <p class="message">
-                  <b><%= post.content %></b>
-                </p>
               </a>
-              <div class="actionBtns">
-                <div class="left">
-                  <% if(String(post.creater._id) == String(currUser._id)) { %>
+              <div class="imgBx">
+                <img src="<%= post.image.url %>" alt="post-1" class="cover" />
+              </div>
+              <div class="bottom">
+                <a href="#">
+                  <p class="message">
+                    <b>
+                      <%= post.content %>
+                    </b>
+                  </p>
+                </a>
+                <div class="actionBtns">
+                  <div class="left">
+                    <% if(String(post.creater._id)==String(currUser._id)) { %>
 
-                  <a href="/posts/<%= post._id %>"
-                    ><button
-                      class="button-50"
-                      id="<%= post._id %>"
-                      role="button"
-                    >
-                      See post detail
-                    </button></a
-                  >
+                      <a href="/posts/<%= post._id %>"><button class="button-50" id="<%= post._id %>" role="button">
+                          See post detail
+                        </button></a>
 
-                  <% } else { // %> <% // if user already interested then button
-                  %> 
-                  <% if(post.interested_user.includes(String(currUser._id))) { %>
-                  <button
-                    class="button-50"
-                    id="<%= post._id %>"
-                    role="button"
-                    disabled
-                  >
-                    Done
-                  </button>
-                  <% } else { // %>
-                  <button
-                    class="button-50"
-                    id="<%= post._id %>"
-                    role="button"
-                    onclick="buttonClicked('<%= post._id %>')"
-                  >
-                    Interest...?
-                  </button>
-                  <% } %> <% } %>
+                      <% } else { // %>
+                        <% // if user already interested then button %>
+                          <% if(post.interested_user.includes(String(currUser._id))) { %>
+                            <button class="button-50" id="<%= post._id %>" role="button" disabled>
+                              Done
+                            </button>
+                            <% } else { // %>
+                              <button class="button-50" id="<%= post._id %>" role="button"
+                                onclick="buttonClicked('<%= post._id %>')">
+                                Interest...?
+                              </button>
+                              <% } %>
+                                <% } %>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <% } %>
+            <% } %>
         </div>
       </div>
-    </main>
+    </div>
 
-    <script>
-      const sender_id = "<%= currUser._id %>";
-      let socket = io("/user-namespace", {
-        auth: {
-          token: sender_id,
-        },
-      });
+    <aside class="chat-sidebar" id="chat-sidebar">
+      <div class="sidebar-container">
+        <div class="img  icon">
+          <a href="/">
+            <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706956064/invito/invito_logo_xep70u.jpg"
+              alt="img1" />
+          </a>
+        </div>
+        <div class="post icon">
+          <a href="/posts/new" class="newpost ">
+            <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/post_fswon1.png"
+              alt="New Post" />
+          </a>
+        </div>
+        <div class="not icon">
+          <a href="/users/notification" class="notification icon">
+            <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893512/invito/notification-bell_rfwfjs.png"
+              alt="Notifications" />
+          </a>
+        </div>
+        <div class="chat icon">
+          <a href="/chats/dashboard">
+            <i class="fa-brands fa-signal-messenger fa-xl" style="color: #000000;"></i>
+          </a>
+        </div>
+        <div class="prof icon">
+          <li class="chat-sidebar-profile">
+            <button type="button" class="chat-sidebar-profile-toggle">
+              <!-- user profile image -->
+              <img src="<%= currUser.profile_image.url %>" alt="" />
+            </button>
+            <ul class="chat-sidebar-profile-dropdown">
+              <!-- redirect to user profile page -->
+              <li>
+                <a href="/users/<%= currUser._id %>/profile"><i class="ri-user-line"></i> Profile</a>
+              </li>
+              <!-- logout current user -->
+              <li>
+                <a href="/users/logout"><i class="ri-logout-box-line"></i> Logout</a>
+              </li>
+            </ul>
+          </li>
+        </div>
+      </div>
+    </aside>
 
-      function buttonClicked(postId) {
-        let myButton = document.getElementById(postId);
 
-        // Change the button text to 'Done'
-        myButton.innerHTML = "Done";
 
-        // Make the button unclickable
-        myButton.disabled = true;
 
-        // Optionally, you can remove the onclick attribute to prevent further clicks
-        myButton.removeAttribute("onclick");
 
-        // send request to the server to show interest
-        // Make an AJAX request to the server
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "/posts/interested", true);
-        xhr.setRequestHeader(
-          "Content-Type",
-          "application/x-www-form-urlencoded"
-        );
+  <script>
+    const sender_id = "<%= currUser._id %>";
+    let socket = io("/user-namespace", {
+      auth: {
+        token: sender_id,
+      },
+    });
 
-        // Set up the data to send to the server
-        const data = `postId=${postId}`;
+    function buttonClicked(postId) {
+      let myButton = document.getElementById(postId);
 
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-              const response = JSON.parse(xhr.responseText);
-              // if (response.success) {
-              //     alert(response.message);
-              // } else {
-              //     alert(response.message);
-              // }
-            } else {
-              alert("Error occurred while making the request");
-            }
+      // Change the button text to 'Done'
+      myButton.innerHTML = "Done";
+
+      // Make the button unclickable
+      myButton.disabled = true;
+
+      // Optionally, you can remove the onclick attribute to prevent further clicks
+      myButton.removeAttribute("onclick");
+
+      // send request to the server to show interest
+      // Make an AJAX request to the server
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "/posts/interested", true);
+      xhr.setRequestHeader(
+        "Content-Type",
+        "application/x-www-form-urlencoded"
+      );
+
+      // Set up the data to send to the server
+      const data = `postId=${postId}`;
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            // if (response.success) {
+            //     alert(response.message);
+            // } else {
+            //     alert(response.message);
+            // }
+          } else {
+            alert("Error occurred while making the request");
           }
-        };
+        }
+      };
 
-        // Send the request with the data
-        xhr.send(data);
-      }
-    </script>
-  </body>
+      // Send the request with the data
+      xhr.send(data);
+    }
+  </script>
+</body>
+
 </html>
