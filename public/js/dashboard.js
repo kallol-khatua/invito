@@ -61,7 +61,7 @@ function submitForm() {
                                     <div class="conversation-item-box">
                                         <div class="conversation-item-text">
                                             <p id=${response.data._id}>${chat}</p>
-                                            <p>unseen</p>
+                                            <i class="ri-check-double-line" ></i>
                                         </div>
                                     </div>
                                 </div>
@@ -318,18 +318,22 @@ socket.on("loadChats", (data) => {
         let html;
         let isSeen;
         if (chat.isSeen == true) {
-            isSeen = "seen";
+            isSeen = '<i class="ri-check-double-line" style = "color:#ecb81d;" ></i>';
         } else if (chat.isSeen == false) {
-            isSeen = "unseen";
+            isSeen = `
+            <i class="ri-check-double-line" style="color:white;"></i>`;
         }
         if (chat.sender_id == sender_id) {
+
             html = `<li class="conversation-item me">
             <div class="conversation-item-wrapper">
                         <div class="conversation-item-box">
-                            <div class="conversation-item-text">
-                               <p id=${chat._id}>${chat.message}</p>
-                               <p>${isSeen}</p>
-                            </div>
+                            <div class="conversation-item-text" >
+                               <div class="message"><p id=${chat._id}>${chat.message}</p></div>
+                               <div class="check">
+                                ${isSeen}
+                                </div>
+                               </div>
                         </div>
                     </div></li>`;
         } else {
@@ -337,8 +341,9 @@ socket.on("loadChats", (data) => {
                         <div class="conversation-item-wrapper">
                             <div class="conversation-item-box">
                                 <div class="conversation-item-text">
-                                   <p id=${chat._id}>${chat.message}</p>
-                                   <p hidden>${isSeen}</p>
+                                <div class="message"><p id=${chat._id}>${chat.message}</p></div>
+                                <div class="check" hidden>
+                                ${isSeen}
                                 </div>
                             </div>
                         </div>
@@ -450,7 +455,7 @@ socket.on("read-current-send-message", (data) => {
     let chat = document.getElementById(data);
     let nextElement = chat.nextElementSibling;
     nextElement.remove();
-    chat.insertAdjacentHTML("afterend", "<p>seen</p>");
+    chat.insertAdjacentHTML("afterend", '<i class="ri-check-double-line" style="color:green;"></i>');
     chatContainer.scrollTop = chatContainer.scrollHeight;
 });
 

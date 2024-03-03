@@ -6,6 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Invito-connecting peoples</title>
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <script
+  src="https://kit.fontawesome.com/8f7f537382.js"
+  crossorigin="anonymous"
+></script>
+  
 
   <!-- <link rel="stylesheet" href="/css/chat.css" /> -->
   <link rel="stylesheet" href="/css/tailwindcss-colors.css" />
@@ -34,7 +39,8 @@
     <div class="chat-container">
       <!-- start: Sidebar -->
       <aside class="chat-sidebar" id="chat-sidebar">
-        <a href="/" class="chat-sidebar-logo">
+        <a href="/" class="chat-sidebar-logo" tooltip="hi"
+        >
           <img src="https://res.cloudinary.com/dfq5rnahw/image/upload/v1706893513/invito/paper-plane_bqmvgx.png">
         </a>
         <ul class="chat-sidebar-menu">
@@ -103,7 +109,8 @@
                       <span>
                         <% if(user.is_online=="1" ) { %>
                           <div class="online-status" id="<%= user._id %>-status">
-                          <p hidden>Online</p></div>
+                            <p hidden>Online</p>
+                          </div>
                           <% } else {%>
                             <div class="offline-status" id="<%= user._id %>-status">
                               <p hidden>Offline</p>
