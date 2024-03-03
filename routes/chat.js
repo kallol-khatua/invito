@@ -50,22 +50,44 @@ router.post("/searchUser", async (req, res, next) => {
     }
 })
 
-// render group page with user created groups 
-router.get("/groups", isLoggedIn, async (req, res, next) => {
-    let groups = await Group.find({ creator: req.user._id });
-    res.render("chats/groups.ejs", { groups });
-});
+// ------------------ group chat ------------------
 
-// create new group and save details to database
+
+// create new group and save members
+// check atleast one members exist or not 
+// check group name
+// check post_id
 router.post("/groups", isLoggedIn, async (req, res, next) => {
-    let newGroup = new Group({
-        creator: req.user,
-        name: req.body.name
-    });
-    await newGroup.save();
-    res.redirect('/chats/groups')
+    let group;
+    // if a group already found then delete members list that are only from the response 
+    let preCreatedGroup = await Group.findOne({ post_id: req.body.postId });
+    if (preCreatedGroup) {
+        await Member.deleteMany({ group_id: preCreatedGroup._id });
+        preCreatedGroup.name = req.body.groupName;
+        group = await preCreatedGroup.save();
+    } else {
+        let newGroup = new Group({
+            creator: req.user,
+            name: req.body.groupName,
+            post_id: req.body.postId
+        });
+        group = await newGroup.save();
+    }
+
+    // updating member info
+    let data = [];
+    for (member of req.body.members) {
+        data.push({
+            group_id: group._id,
+            member_id: member
+        })
+    }
+    await Member.insertMany(data);
+
+    res.status(200).send({ success: true, data: "" });
 });
 
+/*
 // find member and send data to frontend
 router.post("/members", isLoggedIn, async (req, res, next) => {
     try {
@@ -108,6 +130,9 @@ router.post("/members", isLoggedIn, async (req, res, next) => {
         res.status(400).send({ success: false, message: err.message });
     }
 });
+*/
+
+/*
 
 // add members for a group
 router.post("/addMembers", isLoggedIn, async (req, res, next) => {
@@ -172,11 +197,6 @@ router.post("/join-group", async (req, res, next) => {
     }
 })
 
-// render group dashboard
-router.get("/group-dashboard", isLoggedIn, async (req, res, next) => {
-    let createdGroup = await Group.find({ creator: req.user._id });
-    let joinedGroup = await Member.find({ member_id: req.user._id }).populate("group_id");
-    res.render("chats/group-dashboard.ejs", { createdGroup: createdGroup, joinedGroup: joinedGroup });
-});
+*/
 
 module.exports = router;

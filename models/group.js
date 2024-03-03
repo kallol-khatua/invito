@@ -9,6 +9,10 @@ const groupSchema = new Schema({
     name: {
         type: String,
         required: true
+    },
+    post_id: {
+        type: Schema.Types.ObjectId,
+        ref: "Post"
     }
 },{timestamps: true});
 
