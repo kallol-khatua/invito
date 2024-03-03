@@ -467,24 +467,45 @@
                             <div class="profilepic">
                                 <div class="profile_img">
                                     <div class="image">
-                                        <img src="<%= currUser.profile_image.url %>" alt="img8">
+                                        <img src="<%= post.creater.profile_image.url %>" alt="img8">
                                     </div>
                                 </div>
                             </div>
                             <h3>
-                                <%= currUser.username %>
+                                <%= post.creater.username %>
 
                             </h3>
 
                         </div>
                         <div class="btn" width="30px">
-                            <button >Make Team..</button>
+                            <button onclick="makeTeam()">Make Team..</button>
                         </div>
 
                     </div>
                     <div class="imgBx">
                         <img src="<%= post.image.url %>" alt="post-1" class="cover">
                     </div>
+
+                    <!-- group name modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">Group name</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <p id="postId" hidden><%= post._id %></p>
+                              <input type="text" name="groupName" id="groupName" class="form-control" required placeholder="Enter group name">
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-primary" onclick="makeGroup()">Save changes</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
                     <div class="bottom">
                         <a href="#">
                             <p class="message">
@@ -505,7 +526,7 @@
                                 </h2>
                                 <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        <% let users=post.interested_user.reverse() %>
+                                        <% let users = post.interested_user.reverse() %>
                                         <% for(user of users) {%>
                                             <a href="/users/<%= user._id %>/profile">
                                                 <div class="interstedPersons">
@@ -523,7 +544,7 @@
                                                     </div>
                                                 </div>
                                                     <div class="checkbox">
-                                                        <input type="checkbox" name="" id="">
+                                                        <input type="checkbox" name="" id="<%= user._id %>" class="addMemberCheckbox">
                                                     </div>
                                                 </div>
                                             </a>
@@ -545,28 +566,7 @@
         </div>
         </div>
     </main>
-    <script>
-        const sender_id = "<%= currUser._id %>";
-        let socket = io("/user-namespace", {
-            auth: {
-                token: sender_id,
-            },
-        });
-
-        clicked = False
-        function buttonClicked(postId) {
-            var myButton = document.getElementById(postId);
-
-            // Change the button text to 'Done'
-            myButton.innerHTML = 'Done';
-
-            // Make the button unclickable
-            myButton.disabled = true;
-
-            // Optionally, you can remove the onclick attribute to prevent further clicks
-            myButton.removeAttribute('onclick');
-        }
-    </script>
+    <script src="/js/singlePost.js"></script>
 </body>
 
 </html>
