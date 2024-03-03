@@ -116,7 +116,7 @@ main {
 main .container {
     position: relative;
     margin-top: 7vh;
-    width: 75%;
+
     display: flex;
     
     justify-content: space-between;
@@ -124,10 +124,13 @@ main .container {
 }
 
 .col-9 {
-    width: 65%;
+    max-width: 65%;
     margin-top: 5vh;
-    
+   
+   
+   
 }
+    
 
 h1 {
     
@@ -137,15 +140,6 @@ h1 {
     width: 48vw;
 }
 
-.col-9 .card {
-    margin-bottom: 20px;
-    position: relative;
-    width: 100%;
-    /* min-height: 400px; */
-    display: inline-block;
-    border: 1px solid rgba(7, 7, 7, 0.24);
-   
-}
 
 .col-9 .card .top {
     padding: 10px 20px;
@@ -293,63 +287,9 @@ a {
     display: none;
 }
 
- @media(max-width: 1000px) {
-    
-     main .container{
-         width: 100%;
-         padding: 0px 25px;
-        }
-    .col-9 {
-        width: 100%;
-        background: #fafafa;
-    }
-    .button-50{
-        font-size: 30px;
-    }
-    .container .col-9 .welcome .image h1 {
-        font-size: 60px !important;
-        margin-bottom: 30px;
-        margin-top: 0;
-    }
-    
-    body{
-        font-size: 20px;
-    }
-    .message, .col-9 .card .top .userDetails h3, #post1Button{
-        font-size: 30px;
-    }
-    
-    
-} 
 
-@media screen and (max-width: 450px) {
-    
-    
-    .navbar .container {
-        padding: 15px 10px !important;
+@media  screen and (max-width:100px) {
+    .col-9{
+        max-width: 100%;
     }
-    .col-9 {
-        margin-top: 4px;
-        min-width: 100%;
-    }
-
-    .statuses {
-        margin-bottom: 0px;
-    }
-
-    .col-9 .card {
-        width: 100%;
-        margin-bottom: 0px;
-        width: 100%;
-        border: none;
-    }
-
-    .imgBx {
-        position: relative;
-        width: 100%;
-        height: 600px;
-        margin: 10px 0 15px;
-    }
-
-
 }
