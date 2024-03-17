@@ -1,6 +1,5 @@
 ### About
-* Problem
-<br>
+* Problem<br>
 In this busy world where  everyone is  busy and isolated in their life.It become very hard to find people with common interest to build a proper team to work on projects.It become very difficult to find a Team with common interest and passion to work with so this problem should be resolved for the better flow  of work
 
 * Solution<br>
@@ -8,7 +7,7 @@ For the problem discussed earlier we had created a  platform where  anyone  crea
 With this solution it will become very easy to get a best team with no more efforts.
 We had created a fully functional web app and a prototype of android app for the problem
 
-* Features 
+* Features<br>
 1. Fully functional login and sign-page
 2. OTP authentication for the authencity of user
 3. A dedicated user profile is also given to watch his/her activities
