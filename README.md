@@ -108,11 +108,11 @@ _Below is an example of how you can instruct your audience on installing and set
    CLOUD_NAME=<Enter your cloudinary cloud name>
    ```
    ```sh
-  CLOUD_API_KEY=<Enter your cloudinary cloud api key>
-  ```
-   ```sh
-  CLOUD_API_SECRET=<Enter your cloudinary cloud api secret>
-  ```
+    CLOUD_API_KEY=<Enter your cloudinary cloud api key>
+    ```
+    ```sh
+    CLOUD_API_SECRET=<Enter your cloudinary cloud api secret>
+    ```
    ```sh
   
   ATLAS_URL=<Enter your mongodb atlas url>
