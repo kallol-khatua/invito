@@ -1,4 +1,4 @@
-### About
+<!-- ### About
 * Problem<br>
 In this busy world where  everyone is  busy and isolated in their life.It become very hard to find people with common interest to build a proper team to work on projects.It become very difficult to find a Team with common interest and passion to work with so this problem should be resolved for the better flow  of work
 
@@ -60,4 +60,4 @@ Install node.js in your local system.
 4. Run
     ```sh
    npm run dev
-   ```
+   ``` -->
