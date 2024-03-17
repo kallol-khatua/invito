@@ -117,9 +117,6 @@ _Below is an example of how you can instruct your audience on installing and set
     ATLAS_URL=<Enter your mongodb atlas url>
    ```
    ```sh
-    MONGO_URL=mongodb://127.0.0.1:27017/invito
-  ```
-   ```sh
     SECRET=ADNADKJ638HEQWD8913E8HDKhsw8qe8i
    ```
 
