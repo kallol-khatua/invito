@@ -114,14 +114,13 @@ _Below is an example of how you can instruct your audience on installing and set
     CLOUD_API_SECRET=<Enter your cloudinary cloud api secret>
     ```
    ```sh
-  
-  ATLAS_URL=<Enter your mongodb atlas url>
+    ATLAS_URL=<Enter your mongodb atlas url>
+   ```
+   ```sh
+    MONGO_URL=mongodb://127.0.0.1:27017/invito
   ```
    ```sh
-  MONGO_URL=mongodb://127.0.0.1:27017/invito
-  ```
-   ```sh
-  SECRET=ADNADKJ638HEQWD8913E8HDKhsw8qe8i
+    SECRET=ADNADKJ638HEQWD8913E8HDKhsw8qe8i
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
