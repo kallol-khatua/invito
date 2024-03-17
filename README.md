@@ -61,8 +61,3 @@ Install node.js in your local system.
     ```sh
    npm run dev
    ```
-
-
-## License
-
-Distributed under the ISC License.
