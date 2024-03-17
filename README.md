@@ -1,5 +1,5 @@
-<!-- ### About
-* Problem<br>
+### About
+<!-- * Problem<br>
 In this busy world where  everyone is  busy and isolated in their life.It become very hard to find people with common interest to build a proper team to work on projects.It become very difficult to find a Team with common interest and passion to work with so this problem should be resolved for the better flow  of work
 
 * Solution<br>
@@ -13,7 +13,7 @@ We had created a fully functional web app and a prototype of android app for the
 3. A dedicated user profile is also given to watch his/her activities
 4. A beautifull section of notification is also given for never missing recent updates
 5. A dedicated chat-box is also given for the better flow of conversation between the team
-6. A user-friendly design is given to give the smooth experience to the user
+6. A user-friendly design is given to give the smooth experience to the user -->
 
 * Deployment<br>
 <a href="https://invito.onrender.com/">Invito</a>
@@ -21,7 +21,7 @@ We had created a fully functional web app and a prototype of android app for the
 
 ### Prerequisites
 
-Install node.js in your local system. 
+First install node.js in your local system. 
 * npm
   ```sh
   npm install npm@latest -g
@@ -35,7 +35,7 @@ Install node.js in your local system.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/PratiksinghCoderarea/hackathon
+   git clone https://github.com/kallol-khatua/invito.git
    ```
 2. Install NPM packages
    ```sh
@@ -60,4 +60,4 @@ Install node.js in your local system.
 4. Run
     ```sh
    npm run dev
-   ``` -->
+   ```
