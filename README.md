@@ -49,8 +49,6 @@ Install node.js in your local system.
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
 1. Clone the repo
    ```sh
    git clone 
@@ -75,8 +73,10 @@ _Below is an example of how you can instruct your audience on installing and set
    ```sh
     SECRET=ADNADKJ638HEQWD8913E8HDKhsw8qe8i
    ```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+4. Run
+    ```sh
+   npm run dev
+   ```
 
 
 ## License
