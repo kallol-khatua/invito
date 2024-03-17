@@ -15,7 +15,7 @@ We had created a fully functional web app and a prototype of android app for the
 5. A dedicated chat-box is also given for the better flow of conversation between the team
 6. A user-friendly design is given to give the smooth experience to the user
 
-* Deployment
+* Deployment<br>
 <a href="https://invito.onrender.com/">Invito</a>
 
 
