@@ -1,9 +1,6 @@
 ### About
 * Problem
-In this busy world where  everyone is  busy and isolated in their life.It become very hard to find people with common interest to build a proper team to work on projects.
-
-
-It become very difficult to find a Team with common interest and passion to work with so this problem should be resolved for the better flow  of work
+In this busy world where  everyone is  busy and isolated in their life.It become very hard to find people with common interest to build a proper team to work on projects.It become very difficult to find a Team with common interest and passion to work with so this problem should be resolved for the better flow  of work
 
 * Solution
 For the problem discussed earlier we had created a  platform where  anyone  create his/her need of team as a post and the desired person can show interest in that post and eventually end up with building a team.
@@ -18,7 +15,7 @@ We had created a fully functional web app and a prototype of android app for the
 5. A dedicated chat-box is also given for the better flow of conversation between the team
 6. A user-friendly design is given to give the smooth experience to the user
 
-
+* Deployment
 <a href="https://invito.onrender.com/">Invito</a>
 
 
