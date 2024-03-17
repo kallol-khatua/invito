@@ -84,26 +84,29 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+Install node.js in your local system. 
 * npm
   ```sh
   npm install npm@latest -g
+  ```
+* nodemon
+  ```sh
+  npm install -g nodemon
   ```
 
 ### Installation
 
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone 
    ```
-3. Install NPM packages
+2. Install NPM packages
    ```sh
    npm install
    ```
-4. Enter your API in `.env`
+3. Enter your API in `.env`
    ```sh
    CLOUD_NAME=<Enter your cloudinary cloud name>
    ```
