@@ -8,7 +8,7 @@ const mailSender = async (email, otp) => {
             service: 'gmail',
             auth: {
               user: 'webmaster.invito@gmail.com',
-              pass: 'gibgputhnzlwvdet',
+              pass: 'yvsicleiwbqtjsdk',
             }
         });
 
